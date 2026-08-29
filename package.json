@@ -1,0 +1,16 @@
+{
+  "name": "hudaifa-ahamed-portfolio",
+  "version": "1.0.0",
+  "description": "Hudaifa Ahamed — Data Engineer portfolio (Eleventy, static HTML/CSS/JS output)",
+  "private": true,
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "keywords": [],
+  "author": "Hudaifa Ahamed",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
