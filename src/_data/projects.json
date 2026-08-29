@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Config-Driven PySpark ETL Framework",
+    "problem": "New ETL jobs were built one-off per source, duplicating logic and slowing delivery.",
+    "approach": "Designed a reusable framework where a pipeline is defined by configuration — source, schema, transformation rules, target — with built-in validation, reconciliation, and Bash-driven job execution.",
+    "outcome": "Became the standard pattern for new batch pipelines on the team, with consistent validation and logging by default.",
+    "stack": ["PySpark", "HiveQL", "Python", "Shell Scripting"]
+  },
+  {
+    "title": "Legacy Warehouse Migration & ETL Modernization",
+    "problem": "15+ legacy reporting workflows on an older warehouse/BI platform needed to move onto a modern Hadoop-based stack without breaking downstream reporting.",
+    "approach": "Translated legacy SQL and ETL logic into HiveQL- and Informatica BDM-based pipelines, with validation and reconciliation built into every migration before cutover.",
+    "outcome": "15+ datasets modernized with preserved data consistency and reporting continuity.",
+    "stack": ["HiveQL", "Informatica BDM", "Impala SQL"]
+  },
+  {
+    "title": "Large-Scale ETL & Reporting Pipeline Delivery",
+    "problem": "Business reporting depended on 30+ ETL workflows running on daily, monthly, quarterly, and custom-date SLAs.",
+    "approach": "Built and optimized workflows with configurable runtime parameters and partition-based loading; tuned HiveQL/Impala SQL for scale.",
+    "outcome": "Reliable, SLA-compliant delivery across a large, varied pipeline portfolio.",
+    "stack": ["PySpark", "HiveQL", "Impala SQL", "Informatica BDM"]
+  },
+  {
+    "title": "Data Validation, Reconciliation & RCA",
+    "problem": "Modernized and enhanced pipelines needed provably trustworthy output before stakeholders could rely on them.",
+    "approach": "Standard validation/reconciliation checks plus root-cause analysis for production issues — 15+ complex enhancement and data-issue requests resolved end to end.",
+    "outcome": "Issues caught and fixed at the source, with validated production deployments.",
+    "stack": ["SQL", "PySpark", "RCA"]
+  }
+]

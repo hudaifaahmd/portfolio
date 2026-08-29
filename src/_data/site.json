@@ -1,0 +1,26 @@
+{
+  "name": "Hudaifa Ahamed",
+  "titleLine": "Data Engineer — PySpark · SQL · ETL · Big Data",
+  "shortTitle": "Data Engineer",
+  "intro": "Data Engineer with 3+ years building and modernizing production ETL pipelines in Cloudera Hadoop environments — from config-driven PySpark frameworks to large-scale legacy migrations. Currently deepening AWS and GenAI while actively interviewing.",
+  "email": "hudaifaahmd@gmail.com",
+  "phone": "+91 9995597294",
+  "phoneHref": "+919995597294",
+  "whatsappHref": "https://wa.me/919995597294",
+  "location": "Kochi, Kerala, India",
+  "availability": "Available Immediately",
+  "relocation": "Willing to relocate",
+  "resumeFile": "/assets/resume/Hudaifa_Ahamed_Resume.pdf",
+  "resumeFileName": "Hudaifa_Ahamed_Resume.pdf",
+  "contactFormAction": "https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID",
+  "contactPurposes": ["Job opportunity", "Freelance / contract work", "Collaboration", "Just saying hello", "Other"],
+  "copyrightNotice": "Professional viewing and sharing of this site are welcome — reproduction, redistribution, modification, or commercial reuse of its content, design, or photography requires permission.",
+  "nav": [
+    { "label": "About", "href": "/#about" },
+    { "label": "Experience", "href": "/#experience" },
+    { "label": "Projects", "href": "/#projects" },
+    { "label": "Skills", "href": "/#skills" },
+    { "label": "Resume", "href": "/#resume" },
+    { "label": "Contact", "href": "/#contact" }
+  ]
+}

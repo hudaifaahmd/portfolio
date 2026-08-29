@@ -1,0 +1,93 @@
+<div class="panel"
+     id="careerPanel"
+     data-start-date="{{ careerPanel.experienceStartDate }}"
+     data-scale-max="{{ careerPanel.experienceScaleMaxYears }}"
+     data-status-options="{{ careerPanel.careerStatus.options | dump }}"
+     data-status-index="{{ careerPanel.careerStatus.currentIndex }}"
+     data-status-note="{{ careerPanel.careerStatus.note }}"
+     data-mode="{{ careerPanel.mode }}">
+  <span class="panel-caption">Career Control Panel</span>
+  <div class="panel-grid">
+
+    <div class="panel-unit">
+      <div class="knob-wrap" id="knobWrap" role="button" tabindex="0" aria-label="Career status — click to rotate the knob through stages" aria-describedby="knobHint">
+        <span class="knob-hint" id="knobHint" role="tooltip">Click to rotate the knob ↻</span>
+        <svg class="knob-face" width="150" height="150" viewBox="-10 -10 152 152" style="overflow:visible" role="img" aria-label="Career status selector knob">
+          <defs>
+            <linearGradient id="knobPlate" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--surface)"/>
+              <stop offset="100%" stop-color="var(--surface-2)"/>
+            </linearGradient>
+            <radialGradient id="knobFace" cx="32%" cy="26%" r="80%">
+              <stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 22%, var(--surface))"/>
+              <stop offset="55%" stop-color="var(--surface)"/>
+              <stop offset="100%" stop-color="var(--surface-2)"/>
+            </radialGradient>
+            <radialGradient id="knobHub" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="color-mix(in srgb, var(--accent2) 60%, white)"/>
+              <stop offset="100%" stop-color="var(--accent2)"/>
+            </radialGradient>
+          </defs>
+          <rect x="9" y="9" width="114" height="114" rx="16" fill="url(#knobPlate)" stroke="var(--line)" stroke-width="1.5"/>
+          <circle cx="66" cy="15" r="2" fill="var(--line)"/>
+          <circle cx="117" cy="15" r="2" fill="var(--line)"/>
+          <circle cx="15" cy="117" r="2" fill="var(--line)"/>
+          <circle cx="117" cy="117" r="2" fill="var(--line)"/>
+          <g class="knob-ticks"></g>
+          <g id="statusKnob">
+            <circle cx="66" cy="66" r="36" fill="url(#knobFace)" stroke="var(--line)" stroke-width="1"/>
+            <ellipse cx="55" cy="55" rx="14" ry="8" fill="#fff" opacity=".2" transform="rotate(-32 55 55)"/>
+            <path d="M66 66 L63 45 Q66 42 69 45 Z" fill="var(--accent)"/>
+            <circle cx="66" cy="66" r="7" fill="url(#knobHub)" stroke="var(--surface)" stroke-width="1.5"/>
+          </g>
+          <g class="mono knob-labels" font-size="9"></g>
+        </svg>
+      </div>
+      <div class="knob-readout" id="statusReadout"></div>
+      <div class="panel-cap"><b>Career status</b></div>
+    </div>
+
+    <div class="panel-unit">
+      <div class="gauge-wrap2">
+        <svg width="150" height="150" viewBox="-10 -10 152 152" style="overflow:visible" role="img" aria-label="Experience meter">
+          <defs>
+            <radialGradient id="gaugeFace" cx="35%" cy="30%" r="80%">
+              <stop offset="0%" stop-color="var(--surface)"/>
+              <stop offset="100%" stop-color="var(--surface-2)"/>
+            </radialGradient>
+            <radialGradient id="gaugeHub" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="color-mix(in srgb, var(--ink) 40%, white)"/>
+              <stop offset="100%" stop-color="var(--ink)"/>
+            </radialGradient>
+          </defs>
+          <circle cx="66" cy="66" r="59" fill="url(#gaugeFace)" stroke="var(--line)" stroke-width="1.5"/>
+          <path d="M29.23 102.77 A52 52 0 0 1 29.23 29.23" fill="none" stroke="var(--accent2)" stroke-width="8"/>
+          <path d="M29.23 29.23 A52 52 0 0 1 102.77 29.23" fill="none" stroke="var(--accent)" stroke-width="8"/>
+          <path d="M102.77 29.23 A52 52 0 0 1 102.77 102.77" fill="none" stroke="var(--warn)" stroke-width="8"/>
+          <circle cx="66" cy="66" r="40" fill="var(--surface)" stroke="var(--line)" stroke-width="1"/>
+          <g class="gauge-ticks"></g>
+          <g class="mono gauge-ticklabels"></g>
+          <g id="expNeedle">
+            <path d="M63.4 66 L66 20 L68.6 66 Z" fill="var(--ink)"/>
+            <line x1="66" y1="66" x2="66" y2="82" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+          </g>
+          <circle cx="66" cy="66" r="6" fill="url(#gaugeHub)"/>
+        </svg>
+      </div>
+      <div class="meter-readout" id="expReadout"></div>
+      <div class="panel-cap"><b>Experience</b></div>
+    </div>
+
+    <div class="panel-unit">
+      <div class="lever-rail">
+        <button class="lever-stop" data-mode="EMPLOYMENT" aria-pressed="false" type="button">Employment</button>
+        <div class="lever-track-v">
+          <div class="lever-handle" id="leverHandle" role="button" tabindex="0"></div>
+        </div>
+        <button class="lever-stop" data-mode="LEARNING" aria-pressed="true" type="button">Learning</button>
+      </div>
+      <div class="panel-cap"><b>Current mode</b></div>
+    </div>
+
+  </div>
+</div>

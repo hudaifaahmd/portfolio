@@ -1,0 +1,8 @@
+[
+  { "title": "Correctness before assuming success", "text": "A pipeline finishing without errors isn't the same as a pipeline producing the right output — the two get checked separately." },
+  { "title": "Reconciliation over conversion-and-hope", "text": "When a workflow moves from one system to another, the old and new outputs get compared before the old one is retired — not after." },
+  { "title": "Root cause over symptom fixes", "text": "RCA is a habit applied before a fix ships, not a postmortem written after — tracing a data mismatch back to the exact line of transformation logic that caused it." },
+  { "title": "Configuration over duplication", "text": "A recurring pipeline pattern becomes a reusable, config-driven framework — not a new copy-pasted script each time." },
+  { "title": "Failures should be visible, not guessed at", "text": "Validation and logging are part of the pipeline, not an afterthought bolted on when something breaks." },
+  { "title": "Avoid unnecessary complexity", "text": "Reach for an existing, proven pattern before introducing a new tool or dependency without a clear reason to." }
+]

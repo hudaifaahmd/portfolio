@@ -1,0 +1,176 @@
+---
+layout: layout.njk
+title: Hudaifa Ahamed — Data Engineer
+description: Data Engineer with 3+ years building and modernizing production ETL pipelines — PySpark, SQL, Big Data, and data migration.
+---
+<a id="top"></a>
+
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ site.shortTitle }}</p>
+      <h1>{{ site.name }}</h1>
+      <p class="title-line">{{ site.titleLine }}</p>
+      <p class="intro">{{ site.intro }}</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="{{ site.resumeFile }}" download>Download Resume</a>
+        <a class="btn btn-secondary" href="#contact">Contact</a>
+        <a class="btn btn-tertiary" href="{{ site.whatsappHref }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <picture>
+        <source srcset="/assets/images/profile-cutout.webp" type="image/webp">
+        <img src="/assets/images/profile-cutout.png" alt="Portrait of {{ site.name }}" width="760" height="835">
+      </picture>
+    </div>
+  </div>
+
+  {% include "partials/career-panel.njk" %}
+</section>
+
+<section class="section" id="about">
+  <p class="eyebrow">About</p>
+  <h2>Professional summary</h2>
+  <p class="lead">Data Engineer with 3+ years of experience in ETL development, data migration, and big data processing within Cloudera Hadoop environments — Python, PySpark, HiveQL, Informatica BDM, and large-scale pipeline design.</p>
+
+  <h3>Engineering Mindset</h3>
+  <div class="mindset-grid">
+    {% for m in mindset %}
+    <div class="mindset-card"><b>{{ m.title }}</b><span>{{ m.text }}</span></div>
+    {% endfor %}
+  </div>
+
+  <h3>Continuous Development</h3>
+  <div class="learning-card">
+    <p>{{ learning.note }}</p>
+    <div class="tagrow">
+      {% for item in learning.items %}
+      <span class="tag tag-learning">{{ item }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experience">
+  <p class="eyebrow">Experience</p>
+  <h2>Where I've built this</h2>
+  {% for job in experience %}
+  <div class="exp-card">
+    <button class="exp-toggle" type="button" aria-expanded="false">
+      <div class="exp-summary">
+        <h3>{{ job.company }} — {{ job.title }}</h3>
+        <div class="exp-meta">{{ job.location }} · {{ job.dates }}</div>
+        <p class="exp-oneliner">{{ job.summary }}</p>
+        <div class="tagrow">
+          {% for t in job.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+      </div>
+      <span class="exp-chevron" aria-hidden="true">+</span>
+    </button>
+    <div class="exp-detail">
+      <ul>
+        {% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<section class="section" id="projects">
+  <p class="eyebrow">Projects</p>
+  <h2>Sanitized case studies</h2>
+  <p class="lead">Drawn from real production work — no client names, no confidential details.</p>
+  <div class="project-grid">
+    {% for p in projects %}
+    <article class="project-card">
+      <h3>{{ p.title }}</h3>
+      <dl>
+        <dt>Problem</dt><dd>{{ p.problem }}</dd>
+        <dt>Approach</dt><dd>{{ p.approach }}</dd>
+        <dt>Outcome</dt><dd>{{ p.outcome }}</dd>
+      </dl>
+      <div class="tagrow">{% for t in p.stack %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <p class="eyebrow">Skills</p>
+  <h2>By category</h2>
+  <div class="skills-grid">
+    {% for group in skills %}
+    <div class="skill-group">
+      <h4>{{ group.category }}</h4>
+      <div class="tagrow">{% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% include "partials/certificate-carousel.njk" %}
+</section>
+
+<section class="section" id="resume">
+  <p class="eyebrow">Resume</p>
+  <h2>Full resume</h2>
+  <p class="lead">The embedded PDF below is the source of truth — the same file the download button gives you.</p>
+  <div class="resume-embed-wrap">
+    <div class="resume-embed-toolbar">
+      <span class="mono">{{ site.resumeFileName }}</span>
+      <div class="cta-row" style="margin-top:0">
+        <a class="btn btn-secondary" href="{{ site.resumeFile }}" download>Download PDF</a>
+        <button class="btn btn-tertiary" type="button" id="resumeFullscreen">View fullscreen</button>
+      </div>
+    </div>
+    <iframe class="resume-embed" id="resumeFrame" src="{{ site.resumeFile }}" title="{{ site.name }} resume PDF" loading="lazy"></iframe>
+    <p class="resume-fallback">If the preview doesn't load in your browser, <a href="{{ site.resumeFile }}" target="_blank" rel="noopener">open the PDF in a new tab</a> instead.</p>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2>Get in touch</h2>
+  <div class="contact-grid">
+    <div class="contact-cards">
+      <a class="contact-card" href="mailto:{{ site.email }}">
+        <span class="contact-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </span>
+        <span class="contact-card-label">Email</span>
+        <span class="contact-card-value">{{ site.email }}</span>
+      </a>
+      <a class="contact-card" href="tel:{{ site.phoneHref }}">
+        <span class="contact-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h4l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v4a2 2 0 0 1-2 2C9.5 22 2 14.5 2 6a2 2 0 0 1 2-2z"/></svg>
+        </span>
+        <span class="contact-card-label">Phone</span>
+        <span class="contact-card-value">{{ site.phone }}</span>
+      </a>
+      <a class="contact-card" href="{{ site.whatsappHref }}" target="_blank" rel="noopener">
+        <span class="contact-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-1.3-.6-2.2-1.2-3-2.5-.2-.3.2-.3.6-1 .1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.4.1.1 1.6 2.5 4 3.5.6.2 1 .4 1.3.5.6.2 1.1.1 1.5-.1.5-.2 1.4-.6 1.6-1.1.2-.5.2-.9.1-1z"/></svg>
+        </span>
+        <span class="contact-card-label">WhatsApp</span>
+        <span class="contact-card-value">Chat now</span>
+      </a>
+    </div>
+    <form class="contact-form" action="{{ site.contactFormAction }}" method="POST">
+      <input type="hidden" name="_subject" id="contactSubjectHidden" value="">
+      <label>Name <input type="text" name="name" required></label>
+      <label>Email <input type="email" name="email" required></label>
+      <label>Purpose
+        <select name="purpose" id="contactPurpose" required>
+          <option value="" selected disabled>Select…</option>
+          {% for opt in site.contactPurposes %}
+          <option value="{{ opt }}">{{ opt }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Message <textarea name="message" rows="4" required></textarea></label>
+      <button class="btn btn-primary" type="submit">Send message</button>
+      <p class="form-note">This form needs a free Formspree endpoint before it will deliver — see README.md.</p>
+    </form>
+  </div>
+</section>
+
+<button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>

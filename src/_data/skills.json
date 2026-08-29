@@ -1,0 +1,22 @@
+[
+  {
+    "category": "Data Engineering & Big Data",
+    "items": ["Python", "PySpark", "SQL", "HiveQL", "Impala SQL", "Cloudera Hadoop", "Informatica BDM", "Shell Scripting"]
+  },
+  {
+    "category": "ETL & Migration",
+    "items": ["Informatica ETL Development", "PySpark ETL Development", "Data Integration", "Data Migration", "Batch Processing", "Config-Driven ETL Frameworks"]
+  },
+  {
+    "category": "SQL & Optimization",
+    "items": ["Query Optimization", "Dynamic SQL", "Complex Joins", "Window Functions", "CTEs", "SQL Performance Tuning"]
+  },
+  {
+    "category": "Data Quality & Reliability",
+    "items": ["Data Validation", "Data Reconciliation", "Root Cause Analysis (RCA)", "Pipeline Debugging", "Production Issue Resolution"]
+  },
+  {
+    "category": "Development Practices",
+    "items": ["Git", "Jira", "MobaXterm", "Excel", "Agile / Scrum", "SDLC"]
+  }
+]
