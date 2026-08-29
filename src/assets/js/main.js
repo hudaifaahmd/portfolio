@@ -82,7 +82,14 @@
     var originalStatusIndex = statusIndex;
     var statusNote = panel.dataset.statusNote || '';
     var originalStatusNote = statusNote;
+    var statusNoteDetail = panel.dataset.statusNoteDetail || '';
+    var originalStatusNoteDetail = statusNoteDetail;
     var mode = panel.dataset.mode || 'LEARNING';
+
+    // The knob cycles through every stop, including Early Career — but
+    // Early Career is a pass-through, not a resting state (see cycleKnob).
+    var cycleStart = 0;
+    var lastIndex = options.length - 1;
 
     var cx = 66, cy = 66, r = 50;
     var sweep = 280;
@@ -91,41 +98,66 @@
       return options.length > 1 ? startAngle + i * (sweep / (options.length - 1)) : 0;
     });
 
+    var CATEGORY_VAR = { blue: '--accent2', green: '--good', amber: '--warn' };
+    // Category is by position, not by wording, so relabeling an option in the
+    // JSON data never silently breaks the coloring: the last stop (the
+    // destination link) is amber, the one before it is green, everything
+    // earlier is blue.
+    function categoryForIndex(i) {
+      if (i === lastIndex) return 'amber';
+      if (i === lastIndex - 1) return 'green';
+      return 'blue';
+    }
+    function shortLines(label) {
+      if (/experienced professional/i.test(label)) return ['Experienced'];
+      if (/available immediately/i.test(label)) return ['Available'];
+      if (/your company/i.test(label)) return ['Hire Me'];
+      if (label.length > 10 && label.indexOf(' ') !== -1) {
+        var parts = label.split(' ');
+        return [parts.slice(0, -1).join(' '), parts[parts.length - 1]];
+      }
+      return [label];
+    }
+
     var labelsGroup = panel.querySelector('.knob-labels');
     var ticksGroup = panel.querySelector('.knob-ticks');
-    var labelEls = [], tickEls = [];
+    var knobPointer = document.getElementById('knobPointer');
+    var labelEls = [], tickEls = [], catByIndex = [];
     if (labelsGroup) {
       options.forEach(function (label, i) {
         var deg = angles[i];
         var rad = deg * Math.PI / 180;
+        var cat = categoryForIndex(i);
+        catByIndex.push(cat);
 
         var tick = null;
+        var tickRadius = 41;
         if (ticksGroup) {
-          var tx1 = cx + 41 * Math.sin(rad), ty1 = cy - 41 * Math.cos(rad);
-          var tx2 = cx + 46 * Math.sin(rad), ty2 = cy - 46 * Math.cos(rad);
-          tick = document.createElementNS(SVG_NS, 'line');
-          tick.setAttribute('x1', tx1); tick.setAttribute('y1', ty1);
-          tick.setAttribute('x2', tx2); tick.setAttribute('y2', ty2);
-          tick.setAttribute('stroke-linecap', 'round');
+          var tx = cx + tickRadius * Math.sin(rad), ty = cy - tickRadius * Math.cos(rad);
+          tick = document.createElementNS(SVG_NS, 'circle');
+          tick.setAttribute('cx', tx); tick.setAttribute('cy', ty);
           ticksGroup.appendChild(tick);
         }
         tickEls.push(tick);
 
-        var x = cx + r * Math.sin(rad);
-        var y = cy - r * Math.cos(rad);
-        var isDestination = /your company/i.test(label);
+        var isDestination = (i === lastIndex);
+        var isShortcut = (i < cycleStart) && !isDestination;
+        var lines = shortLines(label);
+        // Labels need clearance from the tick dot (radius 41) or they visually
+        // collide with it — two-line labels need extra room on top of that.
+        var textRadius = lines.length > 1 ? r + 8 : r + 4;
+        var x = cx + textRadius * Math.sin(rad);
+        var y = cy - textRadius * Math.cos(rad);
 
         var textEl = document.createElementNS(SVG_NS, 'text');
         textEl.setAttribute('x', x);
         textEl.setAttribute('text-anchor', 'middle');
-        textEl.setAttribute('class', 'gauge-yourco');
+        textEl.setAttribute('class', 'gauge-yourco cat-' + cat);
         labelEls.push(textEl);
 
-        if (isDestination) {
-          // Two short lines ("Your" / "Company") so the CTA stays readable
-          // without needing the plate to be any wider.
-          textEl.setAttribute('y', y - 1);
-          ['Your', 'Company'].forEach(function (word, wi) {
+        if (lines.length > 1) {
+          textEl.setAttribute('y', y - 4);
+          lines.forEach(function (word, wi) {
             var tspan = document.createElementNS(SVG_NS, 'tspan');
             tspan.setAttribute('x', x);
             tspan.setAttribute('dy', wi === 0 ? 0 : 10);
@@ -134,23 +166,35 @@
           });
         } else {
           textEl.setAttribute('y', y + 3);
-          textEl.textContent = label.length > 11 ? label.split(' ')[0] : label;
+          textEl.textContent = lines[0];
         }
 
-        if (isDestination) {
-          // Larger invisible hit-target so the link is easy to tap, drawn on top of everything else.
+        if (isDestination || isShortcut) {
+          // Larger invisible hit-target so these shortcut labels are easy to tap.
           var hit = document.createElementNS(SVG_NS, 'circle');
           hit.setAttribute('cx', x); hit.setAttribute('cy', y + 4);
           hit.setAttribute('r', 14); hit.setAttribute('fill', 'transparent');
 
-          var link = document.createElementNS(SVG_NS, 'a');
-          link.setAttributeNS(XLINK_NS, 'href', '#contact');
-          link.setAttribute('href', '#contact');
-          link.setAttribute('class', 'gauge-link');
-          link.setAttribute('aria-label', label + ' — go to contact section');
-          link.appendChild(hit);
-          link.appendChild(textEl);
-          labelsGroup.appendChild(link);
+          if (isDestination) {
+            var link = document.createElementNS(SVG_NS, 'a');
+            link.setAttributeNS(XLINK_NS, 'href', '#contact');
+            link.setAttribute('href', '#contact');
+            link.setAttribute('class', 'gauge-link');
+            link.setAttribute('aria-label', label + ' — go to contact section');
+            link.appendChild(hit);
+            link.appendChild(textEl);
+            labelsGroup.appendChild(link);
+          } else {
+            var shortcutG = document.createElementNS(SVG_NS, 'g');
+            shortcutG.setAttribute('class', 'knob-shortcut');
+            shortcutG.setAttribute('tabindex', '0');
+            shortcutG.setAttribute('role', 'button');
+            shortcutG.setAttribute('aria-label', 'Set career status to ' + label);
+            shortcutG.dataset.index = i;
+            shortcutG.appendChild(hit);
+            shortcutG.appendChild(textEl);
+            labelsGroup.appendChild(shortcutG);
+          }
         } else {
           labelsGroup.appendChild(textEl);
         }
@@ -163,40 +207,71 @@
     }
 
     function highlightStatus() {
+      var cat = catByIndex[statusIndex] || 'blue';
       labelEls.forEach(function (el, i) { if (el) el.classList.toggle('active', i === statusIndex); });
       tickEls.forEach(function (el, i) {
         if (!el) return;
-        el.setAttribute('stroke', i === statusIndex ? 'var(--accent)' : 'var(--line)');
-        el.setAttribute('stroke-width', i === statusIndex ? '2.5' : '1.5');
+        var active = i === statusIndex;
+        el.setAttribute('r', active ? '3.6' : '2.2');
+        el.setAttribute('fill', active ? 'var(' + CATEGORY_VAR[cat] + ')' : 'var(--ink-faint)');
       });
+      if (knobPointer) knobPointer.setAttribute('fill', 'var(' + CATEGORY_VAR[cat] + ')');
     }
 
     function renderKnob() {
       var el = document.getElementById('statusKnob');
       if (el) el.setAttribute('transform', 'rotate(' + angles[statusIndex] + ' 66 66)');
-      var readout = document.getElementById('statusReadout');
-      if (readout) readout.textContent = statusNote || (options[statusIndex] || '').toUpperCase();
+      var cat = catByIndex[statusIndex] || 'blue';
+      var box = document.getElementById('statusReadoutBox');
+      var main = document.getElementById('statusReadout');
+      var sub = document.getElementById('statusReadoutSub');
+      if (box) box.className = 'dial-readout cat-' + cat;
+      if (main) main.textContent = (statusNote || options[statusIndex] || '').toUpperCase();
+      if (sub) sub.textContent = statusNoteDetail || '';
       highlightStatus();
     }
 
-    // The knob is a click-through toy, like the mode lever — clicking it steps
-    // through the stages so it feels responsive, even though the "real" value
-    // (and the note shown for it) only makes full sense at its data-set index.
+    function setStatus(i, opts) {
+      statusIndex = i;
+      if (statusIndex === originalStatusIndex) {
+        statusNote = originalStatusNote;
+        statusNoteDetail = originalStatusNoteDetail;
+      } else {
+        statusNote = '';
+        statusNoteDetail = '';
+      }
+      renderKnob();
+      if (!(opts && opts.keepTimer) && knobContactTimer) { clearTimeout(knobContactTimer); knobContactTimer = null; }
+      if (earlyCareerTimer) { clearTimeout(earlyCareerTimer); earlyCareerTimer = null; }
+    }
+
+    // Clicking the knob body steps through every stage in order, wrapping
+    // around. Early Career is a pass-through stop, not a place to rest — see
+    // the auto-advance below.
     var knobWrap = document.getElementById('knobWrap');
     var knobContactTimer = null;
+    var earlyCareerTimer = null;
     if (knobWrap && options.length > 1) {
       function cycleKnob() {
-        statusIndex = (statusIndex + 1) % options.length;
-        statusNote = statusIndex === originalStatusIndex ? originalStatusNote : '';
-        renderKnob();
-        if (knobContactTimer) { clearTimeout(knobContactTimer); knobContactTimer = null; }
-        if (statusIndex === options.length - 1) {
-          // Landed on "Working at Your Company" by turning the knob — give it
-          // a couple of seconds to register, then head to Contact.
+        var span = lastIndex - cycleStart + 1;
+        var within = statusIndex >= cycleStart ? (statusIndex - cycleStart + 1) % span : 0;
+        setStatus(cycleStart + within);
+        if (statusIndex === lastIndex) {
+          // Landed on "Your Company" by turning the knob — give it a couple
+          // of seconds to register, then head to Contact.
           knobContactTimer = setTimeout(function () { knobContactTimer = null; scrollToContact(); }, 2000);
+        } else if (statusIndex === 0) {
+          // Early Career is just a marker at the start of the dial — hop
+          // forward to Experienced Professional right away.
+          earlyCareerTimer = setTimeout(function () { earlyCareerTimer = null; setStatus(1); }, 450);
         }
       }
       knobWrap.addEventListener('click', function (e) {
+        var shortcut = e.target.closest && e.target.closest('.knob-shortcut');
+        if (shortcut) {
+          setStatus(parseInt(shortcut.dataset.index, 10));
+          return;
+        }
         if (e.target.closest && e.target.closest('.gauge-link')) {
           // Clicking the "Your Company" text/link itself is a direct shortcut —
           // it navigates immediately via its own href, so no cycling and no
@@ -207,7 +282,11 @@
         cycleKnob();
       });
       knobWrap.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycleKnob(); }
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var shortcut = e.target.closest && e.target.closest('.knob-shortcut');
+        if (shortcut) { e.preventDefault(); setStatus(parseInt(shortcut.dataset.index, 10)); return; }
+        if (e.target.closest && e.target.closest('.gauge-link')) return;
+        e.preventDefault(); cycleKnob();
       });
     }
 
@@ -227,7 +306,7 @@
         var tick = document.createElementNS(SVG_NS, 'line');
         tick.setAttribute('x1', x1); tick.setAttribute('y1', y1);
         tick.setAttribute('x2', x2); tick.setAttribute('y2', y2);
-        tick.setAttribute('stroke', 'var(--ink)'); tick.setAttribute('stroke-width', '2');
+        tick.setAttribute('stroke', 'var(--ink-muted)'); tick.setAttribute('stroke-opacity', '.65'); tick.setAttribute('stroke-width', '1.5');
         tick.setAttribute('stroke-linecap', 'round');
         ticks.appendChild(tick);
         if (labels) {
@@ -250,7 +329,7 @@
       var needle = document.getElementById('expNeedle');
       if (needle && !needleWiggleActive) needle.setAttribute('transform', 'rotate(' + needleBaseAngle.toFixed(1) + ' 66 66)');
       var readout = document.getElementById('expReadout');
-      if (readout) readout.textContent = Math.floor(years) + '+ yrs';
+      if (readout) readout.textContent = Math.floor(years) + '+ Years';
     }
 
     // Touch/hover the gauge and the needle gives a little to-and-fro tremble
@@ -286,6 +365,8 @@
       gaugeWrap.addEventListener('touchstart', startNeedleWiggle, { passive: true });
     }
 
+    var modeCaption = document.getElementById('modeCaption');
+    var modeCaptionText = document.getElementById('modeCaptionText');
     function renderLever() {
       var handle = document.getElementById('leverHandle');
       if (handle) {
@@ -295,6 +376,14 @@
       panel.querySelectorAll('.lever-stop').forEach(function (btn) {
         btn.setAttribute('aria-pressed', btn.dataset.mode === mode ? 'true' : 'false');
       });
+      if (modeCaption) {
+        modeCaption.dataset.mode = mode;
+        if (modeCaptionText) {
+          modeCaptionText.textContent = mode === 'EMPLOYMENT'
+            ? (modeCaption.dataset.captionEmployment || '')
+            : (modeCaption.dataset.captionLearning || '');
+        }
+      }
     }
 
     var modeContactTimer = null;
@@ -303,7 +392,7 @@
       if (modeContactTimer) { clearTimeout(modeContactTimer); modeContactTimer = null; }
       if (mode === 'EMPLOYMENT') {
         // Moved to Employment — give it a beat to register, then head to Contact.
-        modeContactTimer = setTimeout(function () { modeContactTimer = null; scrollToContact(); }, 1000);
+        modeContactTimer = setTimeout(function () { modeContactTimer = null; scrollToContact(); }, 2000);
       }
     }
 
@@ -383,6 +472,22 @@
       subjectInput.value = 'Portfolio contact — ' + label;
     }
     purposeSelect.addEventListener('change', syncSubject);
+  }
+
+  // Formspree's notification email stamps "Submitted" in UTC, which reads as
+  // the wrong time for visitors elsewhere. Record the actual local time (with
+  // timezone) as an extra field so the email carries an accurate one too.
+  var contactFormEl = document.querySelector('.contact-form');
+  var localTimeInput = document.getElementById('contactLocalTime');
+  if (contactFormEl && localTimeInput) {
+    contactFormEl.addEventListener('submit', function () {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        localTimeInput.value = new Date().toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) + ' (' + tz + ')';
+      } catch (e) {
+        localTimeInput.value = new Date().toString();
+      }
+    });
   }
 
   /* ---------------- Certificate carousel ---------------- */

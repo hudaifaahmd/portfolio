@@ -16,6 +16,11 @@
   --shadow: 0 1px 2px rgba(20,21,29,.05), 0 10px 28px -14px rgba(20,21,29,.22);
   --radius: 6px;
   --maxw: 1080px;
+  /* Career Control Panel "housing" — the knob/gauge dial faces themselves stay a
+     fixed dark metal in both themes (see knobFace/gaugeBezel gradients), but the
+     panel chrome around them follows the site theme like everything else. */
+  --panel-bg: #EEF0F8; --panel-card: #FFFFFF; --panel-card-2: #F5F6FB;
+  --panel-line: rgba(28,30,42,.10); --panel-line-strong: rgba(28,30,42,.2);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -25,6 +30,8 @@
     --good: #6FD3A0; --warn: #E8B863;
     --glow: rgba(139, 126, 250, .38);
     --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 28px -14px rgba(0,0,0,.6);
+    --panel-bg: #0B0D16; --panel-card: #12141F; --panel-card-2: #181B29;
+    --panel-line: rgba(255,255,255,.09); --panel-line-strong: rgba(255,255,255,.18);
   }
 }
 :root[data-theme="dark"] {
@@ -34,6 +41,8 @@
   --good: #6FD3A0; --warn: #E8B863;
   --glow: rgba(139, 126, 250, .38);
   --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 28px -14px rgba(0,0,0,.6);
+  --panel-bg: #0B0D16; --panel-card: #12141F; --panel-card-2: #181B29;
+  --panel-line: rgba(255,255,255,.09); --panel-line-strong: rgba(255,255,255,.18);
 }
 
 /* ===== Base ===== */
@@ -102,44 +111,112 @@ li { margin-bottom: .3em; }
 .hero-photo img { position: relative; z-index: 1; width: 100%; max-width: 380px; height: auto; }
 
 /* ===== Career Control Panel ===== */
-.panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); padding: 2rem 1.6rem; margin-top: 2.5rem; }
-.panel-caption { display: block; font-family: 'JetBrains Mono'; font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); margin-bottom: 1.5rem; }
-.panel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; align-items: start; }
-.panel-unit { text-align: center; }
-.panel-cap { font-family: 'JetBrains Mono'; font-size: .74rem; color: var(--ink-muted); margin-top: .8rem; line-height: 1.5; }
-.panel-cap b { color: var(--ink); }
-.panel-cap .sub { display: block; font-size: .68rem; color: var(--ink-faint); margin-top: .1rem; }
+.panel {
+  position: relative; overflow: hidden; border-radius: 20px;
+  background: radial-gradient(120% 140% at 12% -10%, color-mix(in srgb, var(--accent) 6%, var(--panel-bg)) 0%, var(--panel-bg) 55%);
+  border: 1px solid var(--panel-line); box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.04);
+  padding: 2rem 1.7rem 1.8rem; margin-top: 2.5rem; color: var(--ink);
+}
+.panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.panel-head-title { display: flex; align-items: flex-start; gap: .7rem; }
+.panel-head-icon { width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent2) 16%, var(--panel-card)); color: var(--accent2); box-shadow: inset 0 0 0 1px var(--panel-line); }
+.panel-head-icon svg { width: 18px; height: 18px; }
+.panel-title { display: block; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.02rem; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); }
+.panel-subtitle { display: block; font-size: .82rem; color: var(--ink-muted); margin-top: .2rem; }
+.panel-updated { display: flex; align-items: center; gap: .45rem; font-family: 'JetBrains Mono'; font-size: .68rem; color: var(--ink-muted); border: 1px solid var(--panel-line); border-radius: 99px; padding: .35rem .75rem; white-space: nowrap; }
+.panel-updated .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--good); box-shadow: 0 0 6px color-mix(in srgb, var(--good) 60%, transparent); }
 
-.knob-wrap, .gauge-wrap2 { width: 168px; height: 168px; margin: 0 auto; filter: drop-shadow(0 6px 10px rgba(20,21,29,.18)); }
-.knob-wrap { cursor: pointer; border-radius: var(--radius); position: relative; }
-.knob-wrap svg { transition: transform .12s ease; }
+.panel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; align-items: stretch; position: relative; z-index: 1; }
+.panel-unit {
+  text-align: center; border: 1px solid var(--panel-line); border-radius: 16px;
+  background: var(--panel-card); box-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 8px 20px -16px rgba(0,0,0,.4);
+  padding: 1.3rem 1.1rem 1.5rem;
+}
+.panel-col-head { display: flex; align-items: center; justify-content: center; gap: .4rem; margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: .68rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+.panel-col-head svg { width: 14px; height: 14px; }
+.col-head-blue { color: var(--accent2); }
+.col-head-violet { color: var(--accent); }
+.col-head-amber { color: var(--warn); }
+
+.knob-wrap, .gauge-wrap2 { width: 168px; height: 168px; margin: 0 auto; }
+.knob-wrap { cursor: pointer; position: relative; }
+.knob-wrap svg, .gauge-wrap2 svg { transition: transform .12s ease; }
 .knob-wrap:hover svg { transform: scale(1.02); }
 .knob-wrap:active svg { transform: scale(.97); }
-.knob-hint {
-  position: absolute; left: 50%; bottom: calc(100% + 18px); transform: translateX(-50%) translateY(4px);
-  background: var(--ink); color: var(--bg); font-family: 'JetBrains Mono'; font-size: .68rem;
-  padding: .4rem .7rem; border-radius: 6px; white-space: nowrap;
+.knob-hint, .lever-hint {
+  position: absolute;
+  background: color-mix(in srgb, var(--ink) 90%, var(--surface) 10%); color: var(--bg);
+  font-family: 'JetBrains Mono'; font-size: .66rem; font-weight: 600;
+  padding: .4rem .7rem; border-radius: 9px; white-space: nowrap;
+  box-shadow: 0 6px 16px -4px rgba(0,0,0,.28);
   opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease; z-index: 5;
 }
+/* Sits beside the knob, to the right, clear of the readout box below. The
+   knob is the FIRST card, so — mirroring the lever's fix on the opposite
+   side — right is the open direction here; left runs straight off the
+   panel's own edge and gets clipped by its rounded-corner overflow. */
+.knob-hint { left: calc(100% + 2px); top: 50%; transform: translateY(-50%) translateX(-4px); }
+/* Sits beside the lever track, on the left where the card has open room
+   (the right side gets clipped by the panel's own rounded-corner overflow). */
+.lever-hint { font-weight: 400; right: calc(100% + 12px); left: auto; top: 50%; transform: translateY(-50%) translateX(4px); }
 .knob-hint::after {
-  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-  border: 5px solid transparent; border-top-color: var(--ink);
+  content: ""; position: absolute; right: 100%; top: 50%; transform: translateY(-50%);
+  border: 5px solid transparent; border-right-color: color-mix(in srgb, var(--ink) 90%, var(--surface) 10%);
 }
-.knob-wrap:hover .knob-hint, .knob-wrap:focus-visible .knob-hint { opacity: 1; transform: translateX(-50%) translateY(0); }
-.knob-readout, .meter-readout { text-align: center; font-family: 'JetBrains Mono'; font-weight: 600; font-size: .85rem; color: var(--accent2); margin-top: .5rem; letter-spacing: .02em; }
-.gauge-yourco { fill: var(--ink-muted); font-weight: 600; }
-a.gauge-link { cursor: pointer; }
-a.gauge-link .gauge-yourco, .gauge-yourco.active { fill: var(--accent); }
-a.gauge-link:hover .gauge-yourco { fill: var(--accent2); }
-.gauge-ticklabel { font-size: 7.5px; fill: var(--ink-faint); font-weight: 500; }
+.lever-hint::after {
+  content: ""; position: absolute; left: 100%; top: 50%; transform: translateY(-50%);
+  border: 5px solid transparent; border-left-color: color-mix(in srgb, var(--ink) 90%, var(--surface) 10%);
+}
+.knob-wrap:hover .knob-hint, .knob-wrap:focus-visible .knob-hint { opacity: 1; transform: translateY(-50%) translateX(0); }
 
+.lever-handle:hover ~ .lever-hint, .lever-handle:focus-visible ~ .lever-hint { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+/* Knob dial labels + ticks */
+.gauge-yourco { fill: var(--ink-faint); font-weight: 600; transition: fill .15s ease; }
+.gauge-yourco.active { fill: var(--accent); }
+.gauge-yourco.cat-blue.active { fill: var(--accent2); }
+.gauge-yourco.cat-green.active { fill: var(--good); }
+.gauge-yourco.cat-amber.active { fill: var(--warn); }
+a.gauge-link, g.knob-shortcut { cursor: pointer; }
+a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: var(--ink); }
+.gauge-ticklabel { font-size: 7px; fill: var(--ink-faint); font-weight: 500; }
+.gauge-facelabel { font-size: 6.4px; fill: var(--ink-faint); letter-spacing: .06em; }
+
+/* Status readout box (below the knob) */
+.dial-readout { margin-top: .5rem; border: 1px solid var(--panel-line); border-radius: 12px; background: var(--panel-card-2); padding: .7rem .9rem; text-align: left; }
+.dial-readout-head { display: flex; align-items: center; gap: .45rem; }
+.dial-readout-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--accent); box-shadow: 0 0 7px color-mix(in srgb, var(--accent) 55%, transparent); }
+.dial-readout-main { font-family: 'JetBrains Mono'; font-weight: 700; font-size: .78rem; letter-spacing: .03em; color: var(--accent); }
+.dial-readout-sub { font-size: .78rem; color: var(--ink-muted); margin-top: .25rem; }
+.dial-readout-sub:empty { display: none; }
+.dial-readout.cat-blue .dial-readout-dot { background: var(--accent2); box-shadow: 0 0 7px color-mix(in srgb, var(--accent2) 55%, transparent); }
+.dial-readout.cat-blue .dial-readout-main { color: var(--accent2); }
+.dial-readout.cat-green .dial-readout-dot { background: var(--good); box-shadow: 0 0 7px color-mix(in srgb, var(--good) 55%, transparent); }
+.dial-readout.cat-green .dial-readout-main { color: var(--good); }
+.dial-readout.cat-amber .dial-readout-dot { background: var(--warn); box-shadow: 0 0 7px color-mix(in srgb, var(--warn) 55%, transparent); }
+.dial-readout.cat-amber .dial-readout-main { color: var(--warn); }
+
+/* Experience readout */
+.years-pill { margin-top: .75rem; display: inline-block; border: 1px solid var(--panel-line); border-radius: 99px; background: var(--panel-card-2); padding: .55rem 1.3rem; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.15rem; letter-spacing: .02em; color: var(--ink); }
+.years-caption { margin-top: .35rem; font-size: .72rem; color: var(--ink-faint); letter-spacing: .04em; text-transform: uppercase; }
+
+/* Current mode lever */
 .lever-rail { display: flex; flex-direction: column; align-items: center; width: 130px; margin: 0 auto; }
-.lever-stop { width: 100%; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-muted); font-family: 'JetBrains Mono'; font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; padding: .4rem .3rem; cursor: pointer; border-radius: var(--radius); }
-.lever-stop[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: var(--accent); border-color: var(--accent); font-weight: 600; }
-.lever-track-v { width: 46px; height: 96px; margin: .5rem 0; border-radius: 99px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); box-shadow: inset 0 2px 6px rgba(0,0,0,.12); position: relative; cursor: pointer; }
-.lever-handle { position: absolute; left: 4px; width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--accent) 55%, white), var(--accent) 70%); box-shadow: 0 3px 8px rgba(0,0,0,.3), inset 0 1px 1px rgba(255,255,255,.5); transition: top .2s ease; top: 54px; cursor: grab; border: none; padding: 0; }
-.lever-handle.top { top: 4px; background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--accent2) 55%, white), var(--accent2) 70%); }
+.lever-stop { width: 100%; border: 1px solid var(--panel-line); background: var(--panel-card-2); color: var(--ink-muted); font-family: 'JetBrains Mono'; font-size: .66rem; letter-spacing: .04em; text-transform: uppercase; padding: .4rem .3rem; cursor: pointer; border-radius: 8px; }
+.lever-stop[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 16%, var(--panel-card-2)); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+.lever-track-v { width: 44px; height: 96px; margin: .6rem 0; border-radius: 99px; background: linear-gradient(180deg, var(--panel-card-2), var(--panel-bg)); border: 1px solid var(--panel-line); box-shadow: inset 0 2px 8px rgba(0,0,0,.3); position: relative; cursor: pointer; }
+.lever-track-v::before { content: ""; position: absolute; left: 50%; top: 12px; bottom: 12px; width: 2px; transform: translateX(-50%); background: repeating-linear-gradient(180deg, var(--panel-line-strong) 0 2px, transparent 2px 10px); }
+.lever-handle { position: absolute; left: 3px; width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--accent) 65%, white), var(--accent) 75%); box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 55%, transparent), 0 3px 8px rgba(0,0,0,.4), inset 0 1px 1px rgba(255,255,255,.5); transition: top .2s ease; top: 54px; cursor: grab; border: none; padding: 0; z-index: 1; }
+.lever-handle.top { background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--accent2) 65%, white), var(--accent2) 75%); box-shadow: 0 0 16px color-mix(in srgb, var(--accent2) 55%, transparent), 0 3px 8px rgba(0,0,0,.4), inset 0 1px 1px rgba(255,255,255,.5); top: 4px; }
 .lever-handle:active { cursor: grabbing; }
+
+.mode-caption { margin-top: 1rem; display: flex; align-items: center; gap: .55rem; border: 1px solid var(--panel-line); border-radius: 12px; background: var(--panel-card-2); padding: .65rem .8rem; text-align: left; }
+.mode-caption-icon { display: none; flex-shrink: 0; width: 22px; height: 22px; border-radius: 7px; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent) 16%, var(--panel-card-2)); color: var(--accent); }
+.mode-caption-icon svg { width: 13px; height: 13px; }
+.mode-caption[data-mode="LEARNING"] .icon-learning { display: flex; }
+.mode-caption[data-mode="EMPLOYMENT"] .icon-employment { display: flex; }
+.mode-caption[data-mode="EMPLOYMENT"] .mode-caption-icon { background: color-mix(in srgb, var(--accent2) 16%, var(--panel-card-2)); color: var(--accent2); }
+.mode-caption-text { font-size: .78rem; color: var(--ink-muted); line-height: 1.4; }
 
 /* ===== About ===== */
 .mindset-grid { list-style: none; padding: 0; margin: 1rem 0 2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem; }

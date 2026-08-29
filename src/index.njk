@@ -113,7 +113,6 @@ description: Data Engineer with 3+ years building and modernizing production ETL
 <section class="section" id="resume">
   <p class="eyebrow">Resume</p>
   <h2>Full resume</h2>
-  <p class="lead">The embedded PDF below is the source of truth — the same file the download button gives you.</p>
   <div class="resume-embed-wrap">
     <div class="resume-embed-toolbar">
       <span class="mono">{{ site.resumeFileName }}</span>
@@ -156,6 +155,7 @@ description: Data Engineer with 3+ years building and modernizing production ETL
     </div>
     <form class="contact-form" action="{{ site.contactFormAction }}" method="POST">
       <input type="hidden" name="_subject" id="contactSubjectHidden" value="">
+      <input type="hidden" name="submitted_local_time" id="contactLocalTime" value="">
       <label>Name <input type="text" name="name" required></label>
       <label>Email <input type="email" name="email" required></label>
       <label>Purpose
@@ -168,7 +168,6 @@ description: Data Engineer with 3+ years building and modernizing production ETL
       </label>
       <label>Message <textarea name="message" rows="4" required></textarea></label>
       <button class="btn btn-primary" type="submit">Send message</button>
-      <p class="form-note">This form needs a free Formspree endpoint before it will deliver — see README.md.</p>
     </form>
   </div>
 </section>

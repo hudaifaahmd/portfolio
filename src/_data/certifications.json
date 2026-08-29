@@ -8,7 +8,19 @@
   {
     "title": "Certified Data Science Associate Program",
     "issuer": "Indian Council for Technical Research & Development",
-    "date": "November 2025",
+    "date": "December 2025",
     "image": "/assets/images/certificates/certified-data-science-associate.jpg"
+  },
+  {
+    "title": "Certificate of Achievement — Data Engineering",
+    "issuer": "Acabes International",
+    "date": "November 2025",
+    "image": "/assets/images/certificates/acabes-data-engineering-achievement.jpg"
+  },
+  {
+    "title": "Completion of AI Tools & Claude Workshop",
+    "issuer": "be10x",
+    "date": "August 2026",
+    "image": "/assets/images/certificates/be10x-ai-tools-claude-workshop.jpg"
   }
 ]

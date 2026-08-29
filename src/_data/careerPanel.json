@@ -1,11 +1,17 @@
 {
-  "_comment": "Edit these values any time — the site rebuilds automatically once you commit. See README.md for the full walkthrough.",
+  "_comment": "Edit these values any time — the site rebuilds automatically once you commit. See README.md for the full walkthrough. Clicking the knob only cycles the LAST THREE of careerStatus.options — the first one (Early Career) is reached by clicking that label directly.",
   "experienceStartDate": "2023-07-01",
   "experienceScaleMaxYears": 10,
   "careerStatus": {
-    "options": ["Early Career", "Experienced Professional", "Available Immediately", "Working at Your Company"],
+    "options": ["Early Career", "Experienced Professional", "Available Immediately", "Your Company"],
     "currentIndex": 2,
-    "note": "Available — Immediately"
+    "note": "Available – Immediately",
+    "noteDetail": "I'm ready for new opportunities"
   },
-  "mode": "LEARNING"
+  "mode": "LEARNING",
+  "modeCaptions": {
+    "LEARNING": "Currently focusing on learning and upskilling",
+    "EMPLOYMENT": "Open to full-time opportunities and new challenges"
+  },
+  "panelUpdated": "Aug 2026"
 }
