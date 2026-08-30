@@ -2,28 +2,56 @@
   "use strict";
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
-  var XLINK_NS = 'http://www.w3.org/1999/xlink';
 
   /* ---------------- Theme toggle (single segmented control) ---------------- */
   var root = document.documentElement;
   var themeToggle = document.querySelector('.theme-toggle');
   var themeButtons = themeToggle ? Array.prototype.slice.call(themeToggle.querySelectorAll('.themebtn')) : [];
 
-  function setTheme(mode) {
-    if (mode === 'light') root.setAttribute('data-theme', 'light');
-    else if (mode === 'dark') root.setAttribute('data-theme', 'dark');
-    else root.removeAttribute('data-theme');
-    if (themeToggle) themeToggle.setAttribute('data-mode', mode);
-    themeButtons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.set === mode ? 'true' : 'false'); });
+  function systemPrefersDark() {
+    try { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) { return false; }
+  }
+  // Updates only the toggle's visual state (which button looks pressed) —
+  // does not touch data-theme or localStorage. Used to keep the toggle in
+  // sync with the OS while no explicit choice has been saved.
+  function updateToggleUI(effectiveMode) {
+    if (themeToggle) themeToggle.setAttribute('data-mode', effectiveMode);
+    themeButtons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.set === effectiveMode ? 'true' : 'false'); });
+  }
+  // Explicit user choice — sets data-theme, persists it, and from then on
+  // the site ignores the OS setting until the user clears storage.
+  function applyTheme(mode) {
+    root.setAttribute('data-theme', mode);
+    updateToggleUI(mode);
     try { localStorage.setItem('theme', mode); } catch (e) {}
   }
   themeButtons.forEach(function (b) {
-    b.addEventListener('click', function () { setTheme(b.dataset.set); });
+    b.addEventListener('click', function () { applyTheme(b.dataset.set); });
   });
   (function initTheme() {
     var saved = null;
     try { saved = localStorage.getItem('theme'); } catch (e) {}
-    setTheme(saved === 'light' || saved === 'dark' ? saved : 'system');
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+      updateToggleUI(saved);
+      return;
+    }
+    // No explicit choice yet — follow the OS. Leave data-theme unset so the
+    // CSS prefers-color-scheme query drives the actual rendering, and just
+    // keep the toggle's highlighted button matching the live OS setting.
+    root.removeAttribute('data-theme');
+    updateToggleUI(systemPrefersDark() ? 'dark' : 'light');
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      var onSystemChange = function (e) {
+        var current = null;
+        try { current = localStorage.getItem('theme'); } catch (err) {}
+        if (current === 'light' || current === 'dark') return;
+        updateToggleUI(e.matches ? 'dark' : 'light');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+      else if (mq.addListener) mq.addListener(onSystemChange);
+    }
   })();
 
   /* ---------------- Mobile nav (auto-closes on outside tap) ---------------- */
@@ -111,12 +139,17 @@
     function shortLines(label) {
       if (/experienced professional/i.test(label)) return ['Experienced'];
       if (/available immediately/i.test(label)) return ['Available'];
-      if (/your company/i.test(label)) return ['Hire Me'];
       if (label.length > 10 && label.indexOf(' ') !== -1) {
         var parts = label.split(' ');
         return [parts.slice(0, -1).join(' '), parts[parts.length - 1]];
       }
       return [label];
+    }
+    // The readout box gets its own label text, separate from the dial —
+    // "Your Company" on the dial reads as "HIRE ME" in the readout.
+    function readoutLabel(label) {
+      if (/your company/i.test(label)) return 'Hire Me';
+      return label;
     }
 
     var labelsGroup = panel.querySelector('.knob-labels');
@@ -140,8 +173,6 @@
         }
         tickEls.push(tick);
 
-        var isDestination = (i === lastIndex);
-        var isShortcut = (i < cycleStart) && !isDestination;
         var lines = shortLines(label);
         // Labels need clearance from the tick dot (radius 41) or they visually
         // collide with it — two-line labels need extra room on top of that.
@@ -169,35 +200,21 @@
           textEl.textContent = lines[0];
         }
 
-        if (isDestination || isShortcut) {
-          // Larger invisible hit-target so these shortcut labels are easy to tap.
-          var hit = document.createElementNS(SVG_NS, 'circle');
-          hit.setAttribute('cx', x); hit.setAttribute('cy', y + 4);
-          hit.setAttribute('r', 14); hit.setAttribute('fill', 'transparent');
+        // Every dial label is directly clickable — jumps the knob straight
+        // to that position (no cycling, no navigation side-effects).
+        var hit = document.createElementNS(SVG_NS, 'circle');
+        hit.setAttribute('cx', x); hit.setAttribute('cy', y + 4);
+        hit.setAttribute('r', 14); hit.setAttribute('fill', 'transparent');
 
-          if (isDestination) {
-            var link = document.createElementNS(SVG_NS, 'a');
-            link.setAttributeNS(XLINK_NS, 'href', '#contact');
-            link.setAttribute('href', '#contact');
-            link.setAttribute('class', 'gauge-link');
-            link.setAttribute('aria-label', label + ' — go to contact section');
-            link.appendChild(hit);
-            link.appendChild(textEl);
-            labelsGroup.appendChild(link);
-          } else {
-            var shortcutG = document.createElementNS(SVG_NS, 'g');
-            shortcutG.setAttribute('class', 'knob-shortcut');
-            shortcutG.setAttribute('tabindex', '0');
-            shortcutG.setAttribute('role', 'button');
-            shortcutG.setAttribute('aria-label', 'Set career status to ' + label);
-            shortcutG.dataset.index = i;
-            shortcutG.appendChild(hit);
-            shortcutG.appendChild(textEl);
-            labelsGroup.appendChild(shortcutG);
-          }
-        } else {
-          labelsGroup.appendChild(textEl);
-        }
+        var shortcutG = document.createElementNS(SVG_NS, 'g');
+        shortcutG.setAttribute('class', 'knob-shortcut');
+        shortcutG.setAttribute('tabindex', '0');
+        shortcutG.setAttribute('role', 'button');
+        shortcutG.setAttribute('aria-label', 'Set career status to ' + label);
+        shortcutG.dataset.index = i;
+        shortcutG.appendChild(hit);
+        shortcutG.appendChild(textEl);
+        labelsGroup.appendChild(shortcutG);
       });
     }
 
@@ -226,7 +243,7 @@
       var main = document.getElementById('statusReadout');
       var sub = document.getElementById('statusReadoutSub');
       if (box) box.className = 'dial-readout cat-' + cat;
-      if (main) main.textContent = (statusNote || options[statusIndex] || '').toUpperCase();
+      if (main) main.textContent = (statusNote || readoutLabel(options[statusIndex]) || '').toUpperCase();
       if (sub) sub.textContent = statusNoteDetail || '';
       highlightStatus();
     }
@@ -251,6 +268,14 @@
     var knobWrap = document.getElementById('knobWrap');
     var knobContactTimer = null;
     var earlyCareerTimer = null;
+    // Early Career is a pass-through marker, not a place to rest — whether
+    // you land on it by turning the knob or by clicking its label directly,
+    // it briefly explains itself, then hops on to Experienced Professional.
+    function armEarlyCareerAdvance() {
+      var sub = document.getElementById('statusReadoutSub');
+      if (sub) sub.textContent = 'Just a starting marker — moving on…';
+      earlyCareerTimer = setTimeout(function () { earlyCareerTimer = null; setStatus(1); }, 450);
+    }
     if (knobWrap && options.length > 1) {
       function cycleKnob() {
         var span = lastIndex - cycleStart + 1;
@@ -261,22 +286,15 @@
           // of seconds to register, then head to Contact.
           knobContactTimer = setTimeout(function () { knobContactTimer = null; scrollToContact(); }, 2000);
         } else if (statusIndex === 0) {
-          // Early Career is just a marker at the start of the dial — hop
-          // forward to Experienced Professional right away.
-          earlyCareerTimer = setTimeout(function () { earlyCareerTimer = null; setStatus(1); }, 450);
+          armEarlyCareerAdvance();
         }
       }
       knobWrap.addEventListener('click', function (e) {
         var shortcut = e.target.closest && e.target.closest('.knob-shortcut');
         if (shortcut) {
-          setStatus(parseInt(shortcut.dataset.index, 10));
-          return;
-        }
-        if (e.target.closest && e.target.closest('.gauge-link')) {
-          // Clicking the "Your Company" text/link itself is a direct shortcut —
-          // it navigates immediately via its own href, so no cycling and no
-          // separate delayed auto-scroll (and cancel one if it was mid-countdown).
-          if (knobContactTimer) { clearTimeout(knobContactTimer); knobContactTimer = null; }
+          var idx = parseInt(shortcut.dataset.index, 10);
+          setStatus(idx);
+          if (idx === 0) armEarlyCareerAdvance();
           return;
         }
         cycleKnob();
@@ -284,8 +302,13 @@
       knobWrap.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         var shortcut = e.target.closest && e.target.closest('.knob-shortcut');
-        if (shortcut) { e.preventDefault(); setStatus(parseInt(shortcut.dataset.index, 10)); return; }
-        if (e.target.closest && e.target.closest('.gauge-link')) return;
+        if (shortcut) {
+          e.preventDefault();
+          var idx = parseInt(shortcut.dataset.index, 10);
+          setStatus(idx);
+          if (idx === 0) armEarlyCareerAdvance();
+          return;
+        }
         e.preventDefault(); cycleKnob();
       });
     }
@@ -449,9 +472,30 @@
     });
   });
 
+  /* ---------------- Nested experience-category accordion ---------------- */
+  document.querySelectorAll('.exp-cat-toggle').forEach(function (btn) {
+    var detail = btn.nextElementSibling;
+    var chevron = btn.querySelector('.exp-cat-chevron');
+    var parentDetail = btn.closest('.exp-detail');
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      detail.style.maxHeight = open ? '0px' : detail.scrollHeight + 'px';
+      if (chevron) chevron.textContent = open ? '+' : '−';
+      // A category expanding inside the outer job accordion can grow past
+      // that accordion's own max-height (snapshotted when IT opened, before
+      // any category was expanded). Give it generous headroom rather than
+      // re-measuring mid-transition — an oversized max-height has no visual
+      // effect on a panel that's already showing all of its real content.
+      if (parentDetail && parentDetail.style.maxHeight && parentDetail.style.maxHeight !== '0px') {
+        parentDetail.style.maxHeight = '3000px';
+      }
+    });
+  });
+
   /* ---------------- Resume PDF embed fullscreen ---------------- */
   var resumeFullscreenBtn = document.getElementById('resumeFullscreen');
-  var resumeFrame = document.getElementById('resumeFrame');
+  var resumeFrame = document.getElementById('resumeCanvasWrap');
   if (resumeFullscreenBtn && resumeFrame) {
     resumeFullscreenBtn.addEventListener('click', function () {
       try {

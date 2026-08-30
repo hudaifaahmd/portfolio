@@ -74,11 +74,9 @@ li { margin-bottom: .3em; }
 /* Segmented light/auto/dark toggle */
 .theme-toggle { position: relative; display: flex; align-items: center; background: var(--surface-2); border: 1px solid var(--line); border-radius: 99px; padding: 2px; margin-left: .5rem; }
 .theme-toggle .thumb { position: absolute; top: 2px; left: 2px; width: 28px; height: 24px; border-radius: 99px; background: var(--surface); box-shadow: var(--shadow); transition: transform .2s ease; }
-.theme-toggle[data-mode="system"] .thumb { transform: translateX(28px); }
-.theme-toggle[data-mode="dark"] .thumb { transform: translateX(56px); }
+.theme-toggle[data-mode="dark"] .thumb { transform: translateX(28px); }
 .themebtn { position: relative; z-index: 1; width: 28px; height: 24px; border: none; background: none; cursor: pointer; color: var(--ink-faint); font-size: .68rem; display: flex; align-items: center; justify-content: center; }
 .theme-toggle[data-mode="light"] .themebtn[data-set="light"],
-.theme-toggle[data-mode="system"] .themebtn[data-set="system"],
 .theme-toggle[data-mode="dark"] .themebtn[data-set="dark"] { color: var(--ink); }
 .themebtn svg { width: 14px; height: 14px; }
 
@@ -140,6 +138,12 @@ li { margin-bottom: .3em; }
 
 .knob-wrap, .gauge-wrap2 { width: 168px; height: 168px; margin: 0 auto; }
 .knob-wrap { cursor: pointer; position: relative; }
+/* Same click-triggered focus rectangle as the dial labels — the knob body
+   is also a role="button" custom control, so it inherits the global
+   [role="button"]:focus-visible outline even on a plain mouse click. The
+   hint tooltip already signals focus, so drop the box. */
+#knobWrap:focus, #knobWrap:focus-visible,
+#leverHandle:focus, #leverHandle:focus-visible { outline: none; }
 .knob-wrap svg, .gauge-wrap2 svg { transition: transform .12s ease; }
 .knob-wrap:hover svg { transform: scale(1.02); }
 .knob-wrap:active svg { transform: scale(.97); }
@@ -177,8 +181,14 @@ li { margin-bottom: .3em; }
 .gauge-yourco.cat-blue.active { fill: var(--accent2); }
 .gauge-yourco.cat-green.active { fill: var(--good); }
 .gauge-yourco.cat-amber.active { fill: var(--warn); }
-a.gauge-link, g.knob-shortcut { cursor: pointer; }
-a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: var(--ink); }
+g.knob-shortcut { cursor: pointer; }
+g.knob-shortcut:hover .gauge-yourco { fill: var(--ink); }
+/* Custom SVG "buttons" like this get a default focus rectangle drawn around
+   their whole bounding box in Chrome — including on a plain mouse click,
+   since it can't tell this isn't a native control. Swap it for the same
+   text-highlight the hover state already uses. */
+g.knob-shortcut:focus, g.knob-shortcut:focus-visible { outline: none; }
+g.knob-shortcut:focus-visible .gauge-yourco { fill: var(--ink); }
 .gauge-ticklabel { font-size: 7px; fill: var(--ink-faint); font-weight: 500; }
 .gauge-facelabel { font-size: 6.4px; fill: var(--ink-faint); letter-spacing: .06em; }
 
@@ -237,6 +247,16 @@ a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: va
 .exp-detail { max-height: 0; overflow: hidden; transition: max-height .25s ease; padding: 0 1.3rem; }
 .exp-detail ul { margin: 0 0 1.1rem; }
 .exp-detail li { font-size: .92rem; }
+.exp-cats { display: flex; flex-direction: column; gap: .6rem; margin: 0 0 1.2rem; }
+.exp-cat { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+.exp-cat-toggle { width: 100%; background: none; border: none; text-align: left; padding: .7rem .9rem; display: flex; align-items: center; gap: .65rem; cursor: pointer; }
+.exp-cat-num { font-size: .68rem; color: var(--accent2); flex-shrink: 0; }
+.exp-cat-title { font-size: .88rem; font-weight: 600; color: var(--ink); flex: 1; }
+.exp-cat-chevron { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); color: var(--accent2); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: .8rem; line-height: 1; font-family: 'JetBrains Mono'; }
+.exp-cat-detail { max-height: 0; overflow: hidden; transition: max-height .22s ease; padding: 0 .9rem; }
+.exp-cat-detail ul { margin: 0 0 .8rem; padding-left: 1.1rem; }
+.exp-cat-detail li { font-size: .88rem; margin-bottom: .35rem; }
+.exp-cat-detail li:last-child { margin-bottom: 0; }
 
 /* ===== Projects ===== */
 .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 1.6rem; }
@@ -275,7 +295,22 @@ a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: va
 .resume-embed-wrap { margin-top: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 1rem; }
 .resume-embed-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8rem; flex-wrap: wrap; gap: .6rem; }
 .resume-embed-toolbar .mono { font-size: .74rem; color: var(--ink-faint); }
-.resume-embed { width: 100%; height: 640px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2) center/48px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23868da8' stroke-width='1.2'%3E%3Cpath d='M6 2h9l5 5v15H6z'/%3E%3Cpath d='M15 2v5h5'/%3E%3C/svg%3E"); }
+.resume-embed {
+  /* Fixed (not max-) height, reserved from first paint — PDF.js appends
+     canvases asynchronously after a network fetch, and if this box has no
+     height until then, that late arrival is a large, jarring layout shift
+     (everything below it — and visually, anything scrolled near it — jumps).
+     A stable height up front means the page never has to reflow around it. */
+  width: 100%; height: 640px; overflow-y: auto;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-2) center 2rem/48px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23868da8' stroke-width='1.2'%3E%3Cpath d='M6 2h9l5 5v15H6z'/%3E%3Cpath d='M15 2v5h5'/%3E%3C/svg%3E");
+  padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: .7rem;
+}
+.resume-embed.loaded { background-image: none; }
+.resume-embed .resume-page { display: block; max-width: 100%; border-radius: 4px; box-shadow: 0 4px 16px -8px rgba(0,0,0,.35); background: #fff; }
+.resume-embed .resume-load-failed-msg { display: none; text-align: center; color: var(--ink-muted); font-size: .85rem; padding: 2rem 1rem; margin: 0; }
+.resume-embed.load-failed { background-image: none; align-items: center; justify-content: center; }
+.resume-embed.load-failed .resume-load-failed-msg { display: block; }
 .resume-fallback { font-size: .82rem; color: var(--ink-faint); margin-top: .6rem; }
 
 /* ===== Contact ===== */
@@ -287,7 +322,7 @@ a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: va
 .contact-icon svg { width: 17px; height: 17px; }
 .contact-card-label { font-family: 'JetBrains Mono'; font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-faint); }
 .contact-card-value { font-family: 'Space Grotesk'; font-weight: 600; font-size: 1rem; color: var(--ink); }
-.contact-form { display: flex; flex-direction: column; gap: .9rem; }
+.contact-form { display: flex; flex-direction: column; gap: .9rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); padding: 1.3rem 1.4rem; }
 .contact-form label { display: flex; flex-direction: column; gap: .35rem; font-size: .85rem; color: var(--ink-muted); font-family: 'JetBrains Mono'; }
 .contact-form input, .contact-form textarea, .contact-form select { font-family: 'Inter'; font-size: .95rem; padding: .6rem .7rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); }
 .form-note { font-size: .78rem; color: var(--ink-faint); margin: 0; }
@@ -324,6 +359,9 @@ a.gauge-link:hover .gauge-yourco, g.knob-shortcut:hover .gauge-yourco { fill: va
   .site-nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; height: calc(100vh - 60px); overflow-y: auto; }
   .site-nav a { padding: .6rem 0; width: 100%; border-bottom: 1px solid var(--line); }
   .theme-toggle { margin: .8rem 0 0; }
+  /* Side-anchored tooltips have no open room in a full-width single-column
+     card, and hover hints aren't reliable on touch anyway — hide them. */
+  .knob-hint, .lever-hint { display: none; }
   .nav-toggle { display: flex; }
   .section { padding: 3.2rem 1.25rem; }
   .hero { padding: 2.5rem 1.25rem 1.5rem; }

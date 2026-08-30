@@ -41,7 +41,7 @@ description: Data Engineer with 3+ years building and modernizing production ETL
     {% endfor %}
   </div>
 
-  <h3>Continuous Development</h3>
+  <h3>Continuous Learning</h3>
   <div class="learning-card">
     <p>{{ learning.note }}</p>
     <div class="tagrow">
@@ -69,9 +69,28 @@ description: Data Engineer with 3+ years building and modernizing production ETL
       <span class="exp-chevron" aria-hidden="true">+</span>
     </button>
     <div class="exp-detail">
+      {% if job.categories %}
+      <div class="exp-cats">
+        {% for cat in job.categories %}
+        <div class="exp-cat">
+          <button class="exp-cat-toggle" type="button" aria-expanded="false">
+            <span class="exp-cat-num mono">{{ cat.num }}</span>
+            <span class="exp-cat-title">{{ cat.title }}</span>
+            <span class="exp-cat-chevron" aria-hidden="true">+</span>
+          </button>
+          <div class="exp-cat-detail">
+            <ul>
+              {% for b in cat.bullets %}<li>{{ b }}</li>{% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
       <ul>
         {% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}
       </ul>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
@@ -112,7 +131,6 @@ description: Data Engineer with 3+ years building and modernizing production ETL
 
 <section class="section" id="resume">
   <p class="eyebrow">Resume</p>
-  <h2>Full resume</h2>
   <div class="resume-embed-wrap">
     <div class="resume-embed-toolbar">
       <span class="mono">{{ site.resumeFileName }}</span>
@@ -121,7 +139,9 @@ description: Data Engineer with 3+ years building and modernizing production ETL
         <button class="btn btn-tertiary" type="button" id="resumeFullscreen">View fullscreen</button>
       </div>
     </div>
-    <iframe class="resume-embed" id="resumeFrame" src="{{ site.resumeFile }}" title="{{ site.name }} resume PDF" loading="lazy"></iframe>
+    <div class="resume-embed" id="resumeCanvasWrap" data-pdf-url="{{ site.resumeFile }}">
+      <p class="resume-load-failed-msg">Couldn't load the inline preview here — try <a href="{{ site.resumeFile }}" target="_blank" rel="noopener">opening the PDF directly</a> instead.</p>
+    </div>
     <p class="resume-fallback">If the preview doesn't load in your browser, <a href="{{ site.resumeFile }}" target="_blank" rel="noopener">open the PDF in a new tab</a> instead.</p>
   </div>
 </section>

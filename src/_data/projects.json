@@ -3,28 +3,28 @@
     "title": "Config-Driven PySpark ETL Framework",
     "problem": "New ETL jobs were built one-off per source, duplicating logic and slowing delivery.",
     "approach": "Designed a reusable framework where a pipeline is defined by configuration — source, schema, transformation rules, target — with built-in validation, reconciliation, and Bash-driven job execution.",
-    "outcome": "Became the standard pattern for new batch pipelines on the team, with consistent validation and logging by default.",
+    "outcome": "Became the standard pattern for new batch pipelines on the team — turning a one-off build into a configuration change saved development time and effort, while shared, reusable logic reduced duplicated code across pipelines, cutting down on redundant processing and the compute resources and memory it consumed.",
     "stack": ["PySpark", "HiveQL", "Python", "Shell Scripting"]
   },
   {
     "title": "Legacy Warehouse Migration & ETL Modernization",
     "problem": "15+ legacy reporting workflows on an older warehouse/BI platform needed to move onto a modern Hadoop-based stack without breaking downstream reporting.",
-    "approach": "Translated legacy SQL and ETL logic into HiveQL- and Informatica BDM-based pipelines, with validation and reconciliation built into every migration before cutover.",
-    "outcome": "15+ datasets modernized with preserved data consistency and reporting continuity.",
+    "approach": "Translated legacy SQL and ETL logic into HiveQL- and Informatica BDM-based pipelines, making queries compatible with Impala SQL as well for faster ad hoc access downstream, with validation and reconciliation built into every migration before cutover.",
+    "outcome": "15+ datasets modernized with preserved data consistency and reporting continuity — consolidating reporting onto a single modern Hadoop-based platform, reducing the organization's dependence on the ageing Netezza/Cognos stack, and simplifying ongoing support and maintenance for the team going forward.",
     "stack": ["HiveQL", "Informatica BDM", "Impala SQL"]
   },
   {
     "title": "Large-Scale ETL & Reporting Pipeline Delivery",
     "problem": "Business reporting depended on 30+ ETL workflows running on daily, monthly, quarterly, and custom-date SLAs.",
-    "approach": "Built and optimized workflows with configurable runtime parameters and partition-based loading; tuned HiveQL/Impala SQL for scale.",
+    "approach": "Built and optimized workflows with configurable runtime parameters and partition-based loading, tuning HiveQL and Impala SQL for scale throughout. Informatica BDM-based pipelines were the original approach; newer workflows were later built in PySpark using the DataFrame API and Spark SQL for enterprise batch processing.",
     "outcome": "Reliable, SLA-compliant delivery across a large, varied pipeline portfolio.",
     "stack": ["PySpark", "HiveQL", "Impala SQL", "Informatica BDM"]
   },
   {
-    "title": "Data Validation, Reconciliation & RCA",
-    "problem": "Modernized and enhanced pipelines needed provably trustworthy output before stakeholders could rely on them.",
-    "approach": "Standard validation/reconciliation checks plus root-cause analysis for production issues — 15+ complex enhancement and data-issue requests resolved end to end.",
-    "outcome": "Issues caught and fixed at the source, with validated production deployments.",
-    "stack": ["SQL", "PySpark", "RCA"]
+    "title": "Transformation Logic Enhancements & RCA",
+    "problem": "Regulatory and enterprise reporting pipelines — including IFRS 9 reporting — needed continual business-rule changes and fast, accurate root-cause resolution; deadlines don't move for regulatory reporting, and errors have to be caught before they reach the report.",
+    "approach": "Implemented business rule enhancements, derived columns, and workflow redesigns to keep pipelines aligned with changing reporting requirements and SLA commitments. Performed RCA and pipeline-level debugging across multi-stage ETL workflows to resolve data mismatches, transformation issues, and production defects.",
+    "outcome": "15+ complex enhancement and data-issue requests resolved across multiple reporting domains, including IFRS 9 reporting pipelines — pipelines kept accurate and within SLA through changing business requirements, with issues traced to root cause and fixed at the source rather than patched downstream.",
+    "stack": ["HiveQL", "PySpark", "Informatica BDM", "RCA"]
   }
 ]
