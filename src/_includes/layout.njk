@@ -19,6 +19,15 @@
       } catch (e) {}
     })();
   </script>
+
+  <!-- Microsoft Clarity: heatmaps and anonymized session-replay analytics -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yaj1zbyy1a");
+  </script>
 </head>
 <body>
   {% include "partials/header.njk" %}
@@ -28,5 +37,8 @@
   {% include "partials/footer.njk" %}
   <script src="/assets/js/main.js" defer></script>
   <script src="/assets/js/resume-viewer.js" defer></script>
+
+  <!-- Privacy-friendly, cookieless visitor analytics (GoatCounter) -->
+  <script data-goatcounter="https://hudaifa-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
