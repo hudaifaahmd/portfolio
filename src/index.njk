@@ -13,7 +13,7 @@ description: Data Engineer with 3+ years building and modernizing production ETL
       <p class="title-line">{{ site.titleLine }}</p>
       <p class="intro">{{ site.intro }}</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="{{ site.resumeFile }}" download>Download Resume</a>
+        <a class="btn btn-primary" href="{{ site.resumeFile }}" download="{{ site.resumeFileName }}">Download Resume</a>
         <a class="btn btn-secondary" href="#contact">Contact</a>
         <a class="btn btn-tertiary" href="{{ site.whatsappHref }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
       </div>
@@ -135,7 +135,7 @@ description: Data Engineer with 3+ years building and modernizing production ETL
     <div class="resume-embed-toolbar">
       <span class="mono">{{ site.resumeFileName }}</span>
       <div class="cta-row" style="margin-top:0">
-        <a class="btn btn-secondary" href="{{ site.resumeFile }}" download>Download PDF</a>
+        <a class="btn btn-secondary" href="{{ site.resumeFile }}" download="{{ site.resumeFileName }}">Download PDF</a>
         <button class="btn btn-tertiary" type="button" id="resumeFullscreen">View fullscreen</button>
       </div>
     </div>
