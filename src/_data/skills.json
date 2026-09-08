@@ -17,6 +17,6 @@
   },
   {
     "category": "Development Practices",
-    "items": ["Git", "Jira", "MobaXterm", "Excel", "Agile / Scrum", "SDLC"]
+    "items": ["Git", "Jira", "Agile / Scrum", "SDLC"]
   }
 ]

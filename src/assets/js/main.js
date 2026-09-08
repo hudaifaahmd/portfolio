@@ -103,6 +103,15 @@
   /* ---------------- Career Control Panel ---------------- */
   var panel = document.getElementById('careerPanel');
   if (panel) {
+    // "Updated:" badge always reflects the visitor's current month/year —
+    // computed from the browser clock on every load, never hand-edited.
+    var panelUpdatedEl = document.getElementById('panelUpdatedText');
+    if (panelUpdatedEl) {
+      var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var now = new Date();
+      panelUpdatedEl.textContent = MONTH_NAMES[now.getMonth()] + ' ' + now.getFullYear();
+    }
+
     var startDate = new Date(panel.dataset.startDate + 'T00:00:00');
     var scaleMax = parseFloat(panel.dataset.scaleMax || '10');
     var options = JSON.parse(panel.dataset.statusOptions || '[]');
