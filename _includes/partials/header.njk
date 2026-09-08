@@ -1,0 +1,18 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/#top">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">
+      {% for item in site.nav %}
+        <a href="{{ item.href }}">{{ item.label }}</a>
+      {% endfor %}
+      <div class="theme-toggle" data-mode="light" role="group" aria-label="Theme">
+        <span class="thumb" aria-hidden="true"></span>
+        <button class="themebtn" data-set="light" aria-pressed="false" type="button" title="Light theme"><span aria-hidden="true">L</span><span class="sr-only">Light theme</span></button>
+        <button class="themebtn" data-set="dark" aria-pressed="false" type="button" title="Dark theme"><span aria-hidden="true">D</span><span class="sr-only">Dark theme</span></button>
+      </div>
+    </nav>
+  </div>
+</header>

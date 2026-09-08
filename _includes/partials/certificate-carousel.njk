@@ -1,0 +1,36 @@
+{% if certifications and certifications.length > 0 %}
+<div class="cert-block">
+  <h3>Certifications & Training</h3>
+  <div class="carousel" id="certCarousel" data-interval="6000">
+    <div class="cert-stage" id="certStage">
+      {% for cert in certifications %}
+      <div class="cert-slide{% if loop.first %} active{% endif %}" data-i="{{ loop.index0 }}">
+        <img src="{{ cert.image }}" alt="{{ cert.title }} certificate" loading="lazy">
+        <div class="cert-title">{{ cert.title }}</div>
+        <div class="cert-meta">{{ cert.issuer }} · {{ cert.date }}</div>
+        <button class="cert-view" data-i="{{ loop.index0 }}" type="button">View larger</button>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="carousel-controls">
+      <button class="cert-arrow" id="certPrev" aria-label="Previous certificate" type="button">‹</button>
+      <div class="cert-dots" id="certDots">
+        {% for cert in certifications %}
+        <button class="cert-dot{% if loop.first %} active{% endif %}" aria-label="Certificate {{ loop.index }}" data-i="{{ loop.index0 }}" type="button" aria-current="{{ 'true' if loop.first else 'false' }}"></button>
+        {% endfor %}
+      </div>
+      <button class="cert-arrow" id="certNext" aria-label="Next certificate" type="button">›</button>
+    </div>
+    <div class="cert-state sr-only" id="certState" aria-live="polite">auto-rotating · hover, focus, or swipe to pause</div>
+  </div>
+</div>
+
+<div class="lightbox" id="certLightbox">
+  <div class="lightbox-card">
+    <button class="lightbox-close" id="certLightboxClose" aria-label="Close" type="button">✕</button>
+    <img id="lbImage" src="" alt="">
+    <div class="cert-title" id="lbTitle"></div>
+    <div class="cert-meta" id="lbMeta"></div>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,155 @@
+<div class="panel"
+     id="careerPanel"
+     data-start-date="{{ careerPanel.experienceStartDate }}"
+     data-scale-max="{{ careerPanel.experienceScaleMaxYears }}"
+     data-status-options="{{ careerPanel.careerStatus.options | dump }}"
+     data-status-index="{{ careerPanel.careerStatus.currentIndex }}"
+     data-status-note="{{ careerPanel.careerStatus.note }}"
+     data-status-note-detail="{{ careerPanel.careerStatus.noteDetail }}"
+     data-mode="{{ careerPanel.mode }}">
+
+  <div class="panel-head">
+    <div class="panel-head-title">
+      <span class="panel-head-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="4" y1="21" x2="4" y2="3"/><circle cx="4" cy="9" r="2" fill="currentColor" stroke="none"/>
+          <line x1="12" y1="21" x2="12" y2="3"/><circle cx="12" cy="15" r="2" fill="currentColor" stroke="none"/>
+          <line x1="20" y1="21" x2="20" y2="3"/><circle cx="20" cy="7" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span>
+        <span class="panel-title">Career Control Panel</span>
+      </span>
+    </div>
+    <span class="panel-updated"><span class="dot" aria-hidden="true"></span>Updated: <span id="panelUpdatedText">{{ careerPanel.panelUpdated }}</span></span>
+  </div>
+
+  <div class="panel-grid">
+
+    <div class="panel-unit">
+      <div class="panel-col-head col-head-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.9 3.1-6.2 7-6.2s7 2.3 7 6.2"/></svg>
+        Career status
+      </div>
+      <div class="knob-wrap" id="knobWrap" role="button" tabindex="0" aria-label="Career status — click to cycle through career stages" aria-describedby="knobHint">
+        <span class="knob-hint" id="knobHint" role="tooltip">Click to rotate the knob ↻</span>
+        <svg class="knob-face" width="150" height="150" viewBox="-10 -10 152 152" style="overflow:visible" role="img" aria-label="Career status selector knob">
+          <defs>
+            <linearGradient id="knobPlate" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--panel-card-2)"/>
+              <stop offset="100%" stop-color="var(--panel-bg)"/>
+            </linearGradient>
+            <radialGradient id="knobBezel" cx="35%" cy="28%" r="78%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 38%, var(--surface))"/>
+              <stop offset="45%" stop-color="var(--surface-2)"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 40%, var(--surface-2))"/>
+            </radialGradient>
+            <radialGradient id="knobFace" cx="32%" cy="24%" r="82%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 22%, var(--surface))"/>
+              <stop offset="45%" stop-color="var(--surface)"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 22%, var(--surface-2))"/>
+            </radialGradient>
+            <radialGradient id="knobHub" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 32%, var(--surface-2))"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 30%, var(--surface-2))"/>
+            </radialGradient>
+          </defs>
+          <rect x="9" y="9" width="114" height="114" rx="16" fill="url(#knobPlate)" stroke="var(--panel-line)" stroke-width="1.5"/>
+          <g class="knob-ticks"></g>
+          <g id="statusKnob">
+            <circle cx="66" cy="66" r="38" fill="url(#knobBezel)"/>
+            <path d="M38 47 A34 34 0 0 1 85 33" fill="none" stroke="color-mix(in srgb, white 55%, var(--surface-2))" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+            <circle cx="66" cy="66" r="32" fill="url(#knobFace)" stroke="var(--panel-line-strong)" stroke-width="1"/>
+            <ellipse cx="56" cy="56" rx="13" ry="7" fill="#fff" opacity=".14" transform="rotate(-32 56 56)"/>
+            <path id="knobPointer" d="M66 66 L63 38 Q66 34 69 38 Z" fill="var(--accent)"/>
+            <circle cx="66" cy="66" r="8" fill="url(#knobHub)" stroke="var(--panel-card)" stroke-width="1.5"/>
+            <circle cx="63.5" cy="63.5" r="2" fill="#fff" opacity=".4"/>
+          </g>
+          <g class="mono knob-labels" font-size="8.5"></g>
+        </svg>
+      </div>
+      <div class="dial-readout" id="statusReadoutBox">
+        <div class="dial-readout-head"><span class="dial-readout-dot" id="statusReadoutDot" aria-hidden="true"></span><span class="dial-readout-main" id="statusReadout"></span></div>
+        <div class="dial-readout-sub" id="statusReadoutSub"></div>
+      </div>
+    </div>
+
+    <div class="panel-unit">
+      <div class="panel-col-head col-head-violet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></svg>
+        Experience
+      </div>
+      <div class="gauge-wrap2">
+        <svg width="150" height="150" viewBox="-10 -10 152 152" style="overflow:visible" role="img" aria-label="Experience meter">
+          <defs>
+            <radialGradient id="gaugeBezel" cx="35%" cy="28%" r="80%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 38%, var(--surface))"/>
+              <stop offset="55%" stop-color="var(--surface-2)"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 40%, var(--surface-2))"/>
+            </radialGradient>
+            <radialGradient id="gaugeFace" cx="35%" cy="28%" r="82%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 16%, var(--surface))"/>
+              <stop offset="55%" stop-color="var(--surface)"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 18%, var(--surface-2))"/>
+            </radialGradient>
+            <linearGradient id="gaugeArc" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="var(--accent2)"/>
+              <stop offset="50%" stop-color="var(--accent)"/>
+              <stop offset="100%" stop-color="var(--warn)"/>
+            </linearGradient>
+            <linearGradient id="needleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#EAF0FF"/>
+              <stop offset="100%" stop-color="var(--accent2)"/>
+            </linearGradient>
+            <radialGradient id="gaugeHub" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="color-mix(in srgb, white 32%, var(--surface-2))"/>
+              <stop offset="100%" stop-color="color-mix(in srgb, black 30%, var(--surface-2))"/>
+            </radialGradient>
+          </defs>
+          <circle cx="66" cy="66" r="59" fill="url(#gaugeBezel)" stroke="var(--panel-line)" stroke-width="1.5"/>
+          <path d="M29.23 102.77 A52 52 0 1 1 102.77 102.77" fill="none" stroke="url(#gaugeArc)" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="66" cy="66" r="40" fill="url(#gaugeFace)" stroke="var(--panel-line-strong)" stroke-width="1"/>
+          <text x="66" y="49" text-anchor="middle" class="gauge-facelabel mono">YEARS OF</text>
+          <text x="66" y="58" text-anchor="middle" class="gauge-facelabel mono">EXPERIENCE</text>
+          <g class="gauge-ticks"></g>
+          <g class="mono gauge-ticklabels"></g>
+          <g id="expNeedle">
+            <path d="M64 66 L66 24 L68 66 Z" fill="url(#needleGrad)"/>
+            <line x1="66" y1="66" x2="66" y2="80" stroke="var(--accent2)" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+          </g>
+          <circle cx="66" cy="66" r="7" fill="url(#gaugeHub)" stroke="var(--panel-card)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="years-pill" id="expReadout"></div>
+      <div class="years-caption mono">Professional Experience</div>
+    </div>
+
+    <div class="panel-unit">
+      <div class="panel-col-head col-head-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/></svg>
+        Current mode
+      </div>
+      <div class="lever-rail">
+        <button class="lever-stop" data-mode="EMPLOYMENT" aria-pressed="false" type="button">Employment</button>
+        <div class="lever-track-v" id="leverTrackWrap">
+          <div class="lever-handle" id="leverHandle" role="button" tabindex="0" aria-describedby="leverHint"></div>
+          <span class="lever-hint" id="leverHint" role="tooltip">Click to move the lever ↕</span>
+        </div>
+        <button class="lever-stop" data-mode="LEARNING" aria-pressed="true" type="button">Learning</button>
+      </div>
+      <div class="mode-caption" id="modeCaption"
+           data-caption-learning="{{ careerPanel.modeCaptions.LEARNING }}"
+           data-caption-employment="{{ careerPanel.modeCaptions.EMPLOYMENT }}">
+        <span class="mode-caption-icon icon-learning" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V17c0 1.4 2.7 3 6 3s6-1.6 6-3v-5.5"/><path d="M22 9v6"/></svg>
+        </span>
+        <span class="mode-caption-icon icon-employment" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></svg>
+        </span>
+        <span class="mode-caption-text" id="modeCaptionText"></span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
