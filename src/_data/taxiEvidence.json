@@ -1,0 +1,596 @@
+{
+  "tables": [
+    {
+      "name": "bronze_taxi_trips",
+      "purpose": "Raw source plus provenance. Monthly replacement; additive source columns can vary.",
+      "columns": [
+        {
+          "name": "VendorID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "tpep_pickup_datetime",
+          "type": "Source inferred"
+        },
+        {
+          "name": "tpep_dropoff_datetime",
+          "type": "Source inferred"
+        },
+        {
+          "name": "passenger_count",
+          "type": "Source inferred"
+        },
+        {
+          "name": "trip_distance",
+          "type": "Source inferred"
+        },
+        {
+          "name": "PULocationID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "DOLocationID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "payment_type",
+          "type": "Source inferred"
+        },
+        {
+          "name": "fare_amount",
+          "type": "Source inferred"
+        },
+        {
+          "name": "total_amount",
+          "type": "Source inferred"
+        },
+        {
+          "name": "_batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "_source_name",
+          "type": "STRING"
+        },
+        {
+          "name": "_ingested_at_utc",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "_process_year",
+          "type": "INT"
+        },
+        {
+          "name": "_process_month",
+          "type": "INT"
+        }
+      ]
+    },
+    {
+      "name": "quarantine_taxi_trips",
+      "purpose": "Rejected source rows with reason combinations; monthly replacement.",
+      "columns": [
+        {
+          "name": "VendorID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "tpep_pickup_datetime",
+          "type": "Source inferred"
+        },
+        {
+          "name": "tpep_dropoff_datetime",
+          "type": "Source inferred"
+        },
+        {
+          "name": "passenger_count",
+          "type": "Source inferred"
+        },
+        {
+          "name": "trip_distance",
+          "type": "Source inferred"
+        },
+        {
+          "name": "PULocationID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "DOLocationID",
+          "type": "Source inferred"
+        },
+        {
+          "name": "payment_type",
+          "type": "Source inferred"
+        },
+        {
+          "name": "fare_amount",
+          "type": "Source inferred"
+        },
+        {
+          "name": "total_amount",
+          "type": "Source inferred"
+        },
+        {
+          "name": "_batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "_source_name",
+          "type": "STRING"
+        },
+        {
+          "name": "_ingested_at_utc",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "_process_year",
+          "type": "INT"
+        },
+        {
+          "name": "_process_month",
+          "type": "INT"
+        },
+        {
+          "name": "_dq_error",
+          "type": "STRING"
+        },
+        {
+          "name": "_rejected_at_utc",
+          "type": "TIMESTAMP"
+        }
+      ]
+    },
+    {
+      "name": "silver_taxi_trips",
+      "purpose": "Accepted, typed trips; monthly replacement. No global trip deduplication claim.",
+      "columns": [
+        {
+          "name": "vendor_id",
+          "type": "INT"
+        },
+        {
+          "name": "pickup_ts",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "dropoff_ts",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "pickup_date",
+          "type": "DATE"
+        },
+        {
+          "name": "trip_year",
+          "type": "INT"
+        },
+        {
+          "name": "trip_month",
+          "type": "INT"
+        },
+        {
+          "name": "pickup_location_id",
+          "type": "INT"
+        },
+        {
+          "name": "dropoff_location_id",
+          "type": "INT"
+        },
+        {
+          "name": "payment_type_id",
+          "type": "INT"
+        },
+        {
+          "name": "passenger_count",
+          "type": "INT"
+        },
+        {
+          "name": "trip_distance",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "trip_duration_minutes",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "fare_amount",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_amount",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "_batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "_source_name",
+          "type": "STRING"
+        },
+        {
+          "name": "_ingested_at_utc",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "_process_year",
+          "type": "INT"
+        },
+        {
+          "name": "_process_month",
+          "type": "INT"
+        }
+      ]
+    },
+    {
+      "name": "gold_fact_taxi_trips",
+      "purpose": "Accepted trip fact; monthly replacement. Date and zone keys join shared dimensions.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "INT"
+        },
+        {
+          "name": "pickup_ts",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "dropoff_ts",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "vendor_id",
+          "type": "INT"
+        },
+        {
+          "name": "pickup_location_id",
+          "type": "INT"
+        },
+        {
+          "name": "dropoff_location_id",
+          "type": "INT"
+        },
+        {
+          "name": "pickup_zone_key",
+          "type": "INT"
+        },
+        {
+          "name": "dropoff_zone_key",
+          "type": "INT"
+        },
+        {
+          "name": "payment_type_id",
+          "type": "INT"
+        },
+        {
+          "name": "passenger_count",
+          "type": "INT"
+        },
+        {
+          "name": "trip_distance",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "trip_duration_minutes",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "fare_amount",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_amount",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "_batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "_process_year",
+          "type": "INT"
+        },
+        {
+          "name": "_process_month",
+          "type": "INT"
+        }
+      ]
+    },
+    {
+      "name": "gold_dim_date",
+      "purpose": "Shared dimension; unique date_key checked in code, updated by MERGE.",
+      "columns": [
+        {
+          "name": "pickup_date",
+          "type": "DATE"
+        },
+        {
+          "name": "date_key",
+          "type": "INT"
+        },
+        {
+          "name": "year",
+          "type": "INT"
+        },
+        {
+          "name": "month",
+          "type": "INT"
+        },
+        {
+          "name": "day",
+          "type": "INT"
+        },
+        {
+          "name": "day_of_week",
+          "type": "STRING"
+        },
+        {
+          "name": "is_weekend",
+          "type": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "name": "gold_dim_zone",
+      "purpose": "Shared zone dimension; unique zone_id checked in code, unknown key -1.",
+      "columns": [
+        {
+          "name": "zone_id",
+          "type": "INT"
+        },
+        {
+          "name": "borough",
+          "type": "STRING"
+        },
+        {
+          "name": "zone_name",
+          "type": "STRING"
+        },
+        {
+          "name": "service_zone",
+          "type": "STRING"
+        },
+        {
+          "name": "zone_source",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "name": "pipeline_audit",
+      "purpose": "Append-only stage outcomes. Private operational values are not exported.",
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "project_name",
+          "type": "STRING"
+        },
+        {
+          "name": "layer_name",
+          "type": "STRING"
+        },
+        {
+          "name": "table_name",
+          "type": "STRING"
+        },
+        {
+          "name": "source_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "target_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "rejected_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "status",
+          "type": "STRING"
+        },
+        {
+          "name": "error_message",
+          "type": "STRING"
+        },
+        {
+          "name": "started_at_utc",
+          "type": "STRING"
+        },
+        {
+          "name": "ended_at_utc",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "name": "pipeline_reconciliation_checks",
+      "purpose": "Append-only check history; dashboard selects latest recorded attempt per period.",
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "STRING"
+        },
+        {
+          "name": "process_year",
+          "type": "STRING"
+        },
+        {
+          "name": "process_month",
+          "type": "STRING"
+        },
+        {
+          "name": "check_name",
+          "type": "STRING"
+        },
+        {
+          "name": "severity",
+          "type": "STRING"
+        },
+        {
+          "name": "expected_value",
+          "type": "STRING"
+        },
+        {
+          "name": "actual_value",
+          "type": "STRING"
+        },
+        {
+          "name": "check_status",
+          "type": "STRING"
+        },
+        {
+          "name": "detail",
+          "type": "STRING"
+        },
+        {
+          "name": "overall_status",
+          "type": "STRING"
+        },
+        {
+          "name": "reconciled_at_utc",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "name": "pipeline_month_events",
+      "purpose": "Append-only monthly runner events, including retries; null counts mean unmeasured.",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "STRING"
+        },
+        {
+          "name": "run_id",
+          "type": "STRING"
+        },
+        {
+          "name": "source_period",
+          "type": "STRING"
+        },
+        {
+          "name": "status",
+          "type": "STRING"
+        },
+        {
+          "name": "policy_version",
+          "type": "STRING"
+        },
+        {
+          "name": "stage",
+          "type": "STRING"
+        },
+        {
+          "name": "bronze_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "silver_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "gold_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "quarantine_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "out_of_period_count",
+          "type": "BIGINT"
+        },
+        {
+          "name": "source_url",
+          "type": "STRING"
+        },
+        {
+          "name": "source_sha256",
+          "type": "STRING"
+        },
+        {
+          "name": "source_etag",
+          "type": "STRING"
+        },
+        {
+          "name": "source_last_modified",
+          "type": "STRING"
+        },
+        {
+          "name": "event_time_utc",
+          "type": "STRING"
+        },
+        {
+          "name": "error_message",
+          "type": "STRING"
+        }
+      ]
+    }
+  ],
+  "notebooks": [
+    {
+      "name": "00_project_overview",
+      "role": "Project scope, architecture and quality policy"
+    },
+    {
+      "name": "01_setup_and_config",
+      "role": "Parameters, table names and shared helpers"
+    },
+    {
+      "name": "02_ingest_to_bronze",
+      "role": "Land monthly files and preserve ingestion provenance"
+    },
+    {
+      "name": "03_quality_checks",
+      "role": "Quality rules and quarantine evidence"
+    },
+    {
+      "name": "04_transform_to_silver",
+      "role": "Type and standardize accepted trips"
+    },
+    {
+      "name": "05_build_gold_model",
+      "role": "Shared dimensions and source-month fact model"
+    },
+    {
+      "name": "06_reconciliation_and_audit",
+      "role": "Row, amount, date and metadata checks"
+    },
+    {
+      "name": "07_reporting_queries",
+      "role": "Reporting queries for accepted trips"
+    },
+    {
+      "name": "08_monthly_pipeline_runner",
+      "role": "Scheduled publication check and monthly orchestration"
+    },
+    {
+      "name": "09_runtime_sources",
+      "role": "Runtime source bundle used by the runner"
+    },
+    {
+      "name": "10_backfill_status",
+      "role": "Persisted coverage and backfill inspection"
+    },
+    {
+      "name": "11_publication_readiness",
+      "role": "Readiness gates and publication eligibility"
+    },
+    {
+      "name": "12_public_summary_sources",
+      "role": "Allowlisted aggregate summary helpers"
+    },
+    {
+      "name": "13_prepare_public_summary",
+      "role": "Prepare the reviewed public summary"
+    },
+    {
+      "name": "16_publish_public_summary",
+      "role": "Dependent Job task: publish changed approved summary"
+    }
+  ]
+}

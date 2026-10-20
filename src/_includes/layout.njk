@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
+  {% if taxiStyles %}<link rel="stylesheet" href="/assets/css/taxi-project.css">{% endif %}
+  {% if taxiStyles %}<link rel="stylesheet" href="/assets/css/taxi-dashboards.css">{% endif %}
   <script>
     /* Apply saved theme before paint to avoid a flash of the wrong theme. */
     (function () {
@@ -20,6 +22,7 @@
     })();
   </script>
 
+  {% if not dashboardScript %}
   <!-- Microsoft Clarity: heatmaps and anonymized session-replay analytics -->
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -28,6 +31,7 @@
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "yaj1zbyy1a");
   </script>
+  {% endif %}
 </head>
 <body>
   {% include "partials/header.njk" %}
@@ -36,9 +40,11 @@
   </main>
   {% include "partials/footer.njk" %}
   <script src="/assets/js/main.js" defer></script>
+  {% if taxiScript %}<script src="/assets/js/taxi-project.js" defer></script>{% endif %}
+  {% if dashboardScript %}<script src="/assets/js/taxi-dashboards.js" defer></script>{% endif %}
   <script src="/assets/js/resume-viewer.js" defer></script>
 
   <!-- Privacy-friendly, cookieless visitor analytics (GoatCounter) -->
-  <script data-goatcounter="https://hudaifa-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  {% if not dashboardScript %}<script data-goatcounter="https://hudaifa-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>{% endif %}
 </body>
 </html>

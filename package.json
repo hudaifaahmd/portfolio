@@ -4,6 +4,7 @@
   "description": "Hudaifa Ahamed — Data Engineer portfolio (Eleventy, static HTML/CSS/JS output)",
   "private": true,
   "scripts": {
+    "test": "node --test tests/*.test.cjs",
     "start": "eleventy --serve",
     "build": "eleventy"
   },

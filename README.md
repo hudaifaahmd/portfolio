@@ -78,3 +78,49 @@ Until you do this, the form will render but won't actually send anywhere.
 ## What's deliberately not in V1
 
 Per the agreed blueprint: no Education section, no employer-specific Achievements (including the Best Performer recognition), no Recommendations placeholder, no Blog, no Learning Journal, no AWS/GenAI project write-ups, and no backend/database. All of these can be added later without restructuring the site — see the blueprint document for how each would slot in.
+# NYC Taxi Showcase Addition
+
+The homepage shows professional case studies first, followed by a separate Hands-On Projects section linking to
+`/projects/nyc-taxi-lakehouse/`. Existing employer case studies, resume,
+career panel, contact form, privacy page, and analytics remain in place.
+
+Homepage metrics, project results, monthly quality accounting and dashboards
+read the existing credential-free public monthly report when opened, with
+bundled figures as a fallback. Successful monthly processing, reconciliation
+and publication are required before a new source month appears. This is not
+a daily Job heartbeat. Databricks remains the execution platform.
+
+The dashboard page at `/projects/nyc-taxi-lakehouse/dashboards/` also contains
+the full table structures and notebook index. No file upload or manual export
+is required to use its filters. Source contracts and notebook descriptions
+remain documentation, not live workspace metadata.
+
+Local verification:
+
+```sh
+npm ci
+npm run build
+npm test
+npm start
+```
+
+Build output: `_site`. The new source page is
+`src/projects/nyc-taxi-lakehouse.njk`; snapshot data is
+`src/_data/taxiProject.json`. Public notebook downloads are under
+`src/assets/project-code/`. Do not add raw operational logs or secrets.
+
+The optional PowerShell importer reads the private individual-check CSV,
+validates it against this fixed historical verification baseline, and writes
+only public-safe aggregates. It is not a generic automatic publisher; update
+and independently verify the baseline before accepting a future dataset.
+
+No Git push, Netlify deployment, or Databricks configuration changes are
+performed by these files. Review locally before publishing.
+
+## Updating The Existing Netlify Site
+
+Merge the changed source files into the root of the existing portfolio repo;
+do not add an enclosing source or output folder. Keep the existing Netlify
+site and repository connection. The build command is `npm run build` (the
+existing `npx @11ty/eleventy` command also works), and publish directory is
+`_site`. Do not commit generated `_site`, dependencies, or portable previews.

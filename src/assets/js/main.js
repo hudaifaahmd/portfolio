@@ -555,17 +555,9 @@
     var intervalMs = parseInt(carouselEl.dataset.interval, 10) || 6000;
 
     function render() {
-      slides.forEach(function (s, i) { s.classList.toggle('active', i === idx); });
+      slides.forEach(function (s, i) { s.classList.toggle('active', i === idx); s.setAttribute('aria-hidden', i === idx ? 'false' : 'true'); });
       dots.forEach(function (d, i) { d.setAttribute('aria-current', i === idx ? 'true' : 'false'); });
-      requestAnimationFrame(function () {
-        var active = slides[idx];
-        if (active) stage.style.height = active.offsetHeight + 'px';
-      });
     }
-    window.addEventListener('resize', function () {
-      var active = slides[idx];
-      if (active) stage.style.height = active.offsetHeight + 'px';
-    });
     function goTo(i, manual) {
       idx = (i + slides.length) % slides.length; render();
       if (manual) { manuallyStopped = true; stop(); if (stateEl) stateEl.textContent = 'auto-rotation paused (you navigated manually)'; }

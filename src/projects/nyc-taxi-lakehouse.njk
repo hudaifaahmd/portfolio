@@ -1,0 +1,78 @@
+---
+layout: layout.njk
+title: NYC Taxi Lakehouse | Hudaifa Ahamed
+description: An end-to-end Databricks reference project with quality gates, source-month reconciliation, and monthly analytics.
+permalink: /projects/nyc-taxi-lakehouse/index.html
+taxiStyles: true
+taxiScript: true
+---
+<article class="taxi-page" id="top">
+  <header class="taxi-intro">
+    <a class="taxi-back" href="/#hands-on-projects">&larr; Back to portfolio</a>
+    <p class="taxi-kicker">Personal reference project / Data engineering</p>
+    <h1>NYC Taxi Lakehouse</h1>
+    <p class="taxi-deck">Public trip files. Accountable data. Inspectable results.</p>
+    <p>A Databricks lakehouse built around source-month processing: ingest public yellow-taxi files, separate rejected records, model accepted trips, and reconcile the result before reporting.</p>
+    <div class="taxi-status"><strong id="taxi-publication-label">Source-month coverage</strong><span id="taxi-verification-date">32 source months</span><span id="taxi-coverage">January 2024 &ndash; August 2026</span></div>
+    <p class="taxi-muted" id="taxi-publication-note">Verified snapshot of monthly source data, not a live public feed. Scheduled availability checks process eligible new or changed monthly files.</p>
+    <nav class="taxi-local-nav" aria-label="Project sections"><a href="#architecture">Pipeline</a><a href="#results">Results</a><a href="#quality">Quality</a><a href="#operations">Operations</a><a href="#source">Inspect the work</a></nav>
+  </header>
+  <section class="taxi-band" id="architecture">
+    <p class="taxi-kicker">01 / Architecture</p><h2>From source to dashboard</h2>
+    <ol class="taxi-flow">
+      <li><a href="#stage-source"><small>01 / Source</small><strong>TLC Parquet</strong><span>Monthly yellow-taxi files</span></a></li>
+      <li><a href="#stage-bronze"><small>02 / Ingestion</small><strong>Landing + Bronze</strong><span>Preserve provenance</span></a></li>
+      <li><a href="#stage-silver"><small>03 / Quality</small><strong>Silver + quarantine</strong><span>Accept or isolate</span></a></li>
+      <li><a href="#stage-gold"><small>04 / Modeling</small><strong>Gold + checks</strong><span>Reconcile rows and cents</span></a></li>
+      <li><a href="#stage-dashboard"><small>05 / Consumption</small><strong>Dashboard</strong><span>Analytics and operations</span></a></li>
+    </ol>
+    <div class="taxi-stage-list">
+      <details id="stage-source" open><summary>Source and publication eligibility</summary><p>Official NYC TLC yellow-taxi trip records arrive as monthly Parquet files. The runner computes the latest due source period, then checks publication availability. A missing file is a waiting state, not proof of an empty month.</p><p><a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">Official TLC trip-record source &nearr;</a> &middot; <a href="/assets/project-code/08_monthly_pipeline_runner.py" download>Runner notebook</a></p></details>
+      <details id="stage-bronze"><summary>Landing and Bronze: traceable ingestion</summary><p>Files are landed before ingestion. Bronze retains source and batch metadata so each monthly input can be traced through later stages. Processing is bounded by source period rather than pickup date alone.</p><p><a href="/assets/project-code/02_ingest_to_bronze.py" download>Ingestion notebook</a></p></details>
+      <details id="stage-silver"><summary>Silver and quarantine: explicit quality policy</summary><p>Quality rules separate accepted trips from rejected evidence. Negative amounts are among the exclusions; this changes the population represented by accepted totals. Boundary-date observations are tracked separately from dates outside the allowed grace window.</p><p><a href="/assets/project-code/03_quality_checks.py" download>Quality checks</a> &middot; <a href="/assets/project-code/04_transform_to_silver.py" download>Silver transformation</a></p></details>
+      <details id="stage-gold"><summary>Gold and reconciliation: prove the handoff</summary><p>Gold models accepted trips for reporting. Reconciliation checks the Bronze split, Silver-to-Gold row preservation, amounts in cents, date windows, and required metadata. Source-month accounting preserves historical coverage.</p><p><a href="/assets/project-code/05_build_gold_model.py" download>Gold model</a> &middot; <a href="/assets/project-code/06_reconciliation_and_audit.py" download>Reconciliation notebook</a></p></details>
+      <details id="stage-dashboard"><summary>Analytics and pipeline operations</summary><p>The native Databricks dashboard separates Lakehouse analytics from Operations. Filters use source periods. Event counts describe an observed stage and are not automatically current table counts.</p><p><a href="/assets/project-code/07_reporting_queries.py" download>Reporting queries</a> &middot; <a href="/assets/project-code/10_backfill_status.py" download>Backfill status notebook</a></p></details>
+    </div>
+  </section>
+  <section class="taxi-band" id="results" data-feed-enabled="{{ taxiFeed.enabled }}" data-feed-url="{{ taxiFeed.url }}">
+    <div class="taxi-section-heading"><div><p class="taxi-kicker">02 / Verified results</p><h2 id="taxi-results-title">32 months, reconciled</h2></div><label class="taxi-select">Source year <select id="taxi-year" disabled><option value="all">All years</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026 through August</option></select></label></div>
+    <p class="taxi-muted" id="taxi-range" aria-live="polite">January 2024 &ndash; August 2026 / 32 source months</p>
+    <dl class="taxi-metrics">
+      <div><dt>Source rows / Bronze</dt><dd id="taxi-bronze">119,595,677</dd></div>
+      <div><dt>Accepted trips / Gold</dt><dd id="taxi-gold">115,842,411</dd></div>
+      <div><dt>Quarantined rows</dt><dd id="taxi-quarantine">3,753,266</dd></div>
+      <div><dt>Weighted quarantine</dt><dd id="taxi-rate">3.14%</dd></div>
+    </dl>
+    <div class="taxi-amount"><span>Gold source total amount (USD)</span><strong id="taxi-amount">$3,388,158,595.79</strong><p>Sum of accepted source <code>total_amount</code>, not validated net revenue.</p></div>
+    <figure class="taxi-chart">
+      <figcaption><strong>Accepted trips by source month</strong><span id="taxi-chart-scale">Common scale: 0 to 4.5 million trips</span></figcaption>
+      <div class="taxi-chart-scroll" tabindex="0" role="region" aria-label="Monthly accepted trips chart; exact figures in table below"><div class="taxi-bars" id="taxi-bars">
+      {% for m in taxiProject.months %}<div class="taxi-bar" data-period="{{ m.period }}"><div class="taxi-bar-track"><span style="height:{{ m.gold | barHeight }}%" title="{{ m.period }}: {{ m.gold | count }} accepted trips"></span></div><span class="taxi-bar-label">{{ m.period }}</span></div>{% endfor %}
+      </div></div>
+    </figure>
+    <details class="taxi-table-detail"><summary>Exact monthly figures and source amounts</summary><div class="taxi-table-scroll" tabindex="0" role="region" aria-label="Monthly reconciliation figures"><table><caption>Source-month figures: January 2024 &ndash; August 2026</caption><thead><tr><th scope="col">Period</th><th scope="col">Bronze</th><th scope="col">Silver / Gold</th><th scope="col">Quarantine</th><th scope="col">Source amount (USD)</th></tr></thead><tbody id="taxi-months">{% for m in taxiProject.months %}<tr data-period="{{ m.period }}"><th scope="row">{{ m.period }}</th><td>{{ m.bronze | count }}</td><td>{{ m.gold | count }}</td><td>{{ m.quarantine | count }}</td><td>{{ m.amountCents | moneyCents }}</td></tr>{% endfor %}</tbody></table></div></details>
+    <h3>Explore the monthly trends</h3>
+    <p>Compare source months, accepted trips, source amounts and quality accounting in the interactive dashboard.</p>
+    <p><a class="taxi-link" href="/projects/nyc-taxi-lakehouse/dashboards/">Explore interactive dashboards &rarr;</a></p>
+  </section>
+  <section class="taxi-band" id="quality">
+    <p class="taxi-kicker">03 / Data quality</p><h2>Account for every source row</h2>
+    <p class="taxi-muted" id="taxi-quality-range">Source-month accounting: January 2024 through August 2026.</p>
+    <dl class="taxi-proof"><div><dt>Bronze = Silver + quarantine</dt><dd id="taxi-quality-equation">119,595,677 = 115,842,411 + 3,753,266</dd></div><div><dt>Silver = Gold</dt><dd id="taxi-quality-preservation">115,842,411 rows in each</dd></div><div><dt>Boundary observations</dt><dd id="taxi-quality-boundary">661 accepted pickup-date observations outside their nominal source month</dd></div><div><dt>Weighted quarantine percentage</dt><dd id="taxi-quality-rate">3.14% = total quarantine / total Bronze</dd></div></dl>
+    <p class="taxi-muted">Boundary observations are retained according to the date policy; they are not globally unique trips. These figures describe row accounting, not the status of every individual quality rule.</p>
+  </section>
+  <section class="taxi-band" id="operations">
+    <p class="taxi-kicker">04 / Orchestration</p><h2>Scheduled checks, bounded work</h2>
+    <dl class="taxi-proof"><div><dt>Source availability check</dt><dd>Daily at 09:00 Asia/Calcutta (UTC+05:30)</dd></div><div><dt>When new or changed files are found</dt><dd>Process eligible source months, reconcile the results, then publish the updated monthly report.</dd></div><div><dt>When files have not changed</dt><dd>Skip ETL and keep the existing report; a daily check does not mean new data was processed.</dd></div><div><dt>Task order</dt><dd>Monthly runner, followed by the summary publisher on upstream success.</dd></div><div><dt>Concurrent runs</dt><dd>1, with queue enabled</dd></div></dl>
+  </section>
+  <section class="taxi-band" id="source">
+    <p class="taxi-kicker">05 / Inspect the work</p><h2>Code, context, and provenance</h2>
+    <p>The implementation runs in Databricks Free Edition using Python, PySpark, SQL, Delta tables, and a native scheduled Job. This Eleventy page presents reviewed evidence separately from the execution platform.</p>
+    <p>Inspect columns and relationships in <a href="/projects/nyc-taxi-lakehouse/dashboards/#table-structures">Table structures</a>, or browse responsibilities and execution order in the <a href="/projects/nyc-taxi-lakehouse/dashboards/#notebook-index">Notebook index</a>.</p>
+    <div class="taxi-downloads"><a class="taxi-link" href="{{ taxiSource.url }}">View source{% if not taxiSource.public %} (private){% endif %} &nearr;</a><a class="taxi-link" href="#results">Explore results &uarr;</a><a class="taxi-link" href="/assets/project-code/nyc-taxi-notebooks.zip" download>Project notebooks &darr;</a><a class="taxi-link" href="/assets/project-code/README.md" download>Project README &darr;</a><a class="taxi-link" id="taxi-data-download" href="/assets/project-code/snapshot.json" download>Monthly data (JSON) &darr;</a></div>
+    <p class="taxi-muted">Databricks walkthrough available on request. The workspace itself remains private.</p>
+    <p class="taxi-muted">Downloads contain source notebooks, not raw records, credentials, or private operational logs. This reference project is separate from the employer case studies on my portfolio.</p>
+    <p class="taxi-muted">Data source: NYC Taxi &amp; Limousine Commission. Independent learning project; not affiliated with or endorsed by the City of New York or Databricks. These are transformed, policy-filtered results, not official City statistics. Source accuracy and completeness are not guaranteed.</p>
+    <a class="taxi-back" href="/#hands-on-projects">&larr; Return to portfolio</a>
+  </section>
+</article>

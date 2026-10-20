@@ -1,0 +1,45 @@
+---
+layout: layout.njk
+title: NYC Taxi Dashboards | Hudaifa Ahamed
+description: Interactive NYC Taxi monthly dashboards, table structures and notebook index.
+permalink: /projects/nyc-taxi-lakehouse/dashboards/index.html
+taxiStyles: true
+dashboardScript: true
+taxiScript: true
+---
+<article class="taxi-page dashboard-page">
+  <header class="taxi-intro">
+    <a class="taxi-back" href="/projects/nyc-taxi-lakehouse/">&larr; Project overview</a>
+    <p class="taxi-kicker">NYC Taxi / Monthly analytics</p>
+    <h1>Lakehouse dashboards</h1>
+    <p class="taxi-muted" id="dashboard-provenance" aria-live="polite">Source months: January 2024 &ndash; August 2026</p>
+    <nav class="taxi-local-nav" aria-label="Dashboard page sections"><a href="#interactive-dashboard">Interactive dashboard</a><a href="#table-structures">Table structures</a><a href="#notebook-index">Notebook index</a></nav>
+  </header>
+  <section class="taxi-band" id="interactive-dashboard">
+  <h2>Interactive dashboard</h2>
+  <nav class="dash-tabs" id="dashboard-tabs" role="tablist" aria-label="Dashboard views"></nav>
+  <div class="dash-toolbar">
+    <details id="dashboard-period-control" class="dash-period-menu"><summary>Source periods</summary><div class="dash-period-actions"><button type="button" id="dashboard-all">Select all</button><button type="button" id="dashboard-none">Clear</button></div><div id="dashboard-periods"></div></details>
+  </div>
+  <p class="taxi-muted" id="dashboard-view-note"></p>
+  <p class="dash-message" id="dashboard-message" role="status"></p>
+  <div class="dash-panels" id="dashboard-panels" role="tabpanel" tabindex="0"></div>
+  <noscript><p>JavaScript is required for interactive dashboard views. <a href="/projects/nyc-taxi-lakehouse/#results">View recorded monthly figures</a>.</p></noscript>
+  <details><summary>Data scope</summary>
+    <p>Accepted trips, source amounts and quality counts are grouped by the source file's month. Boundary observations may have pickup dates outside that month; source-month coverage is not a maximum pickup timestamp.</p>
+    <p class="taxi-muted">Accounting gaps are calculated from the monthly counts: Bronze &minus; Silver &minus; quarantine, and Silver &minus; Gold. Boundary observations are not globally unique trips. Detailed daily, zone, route, payment and operational-event datasets are not included in this public monthly report.</p>
+  </details>
+  </section>
+  <section class="taxi-band" id="table-structures">
+    <h2>Table structures</h2>
+    <p class="taxi-muted">Source-defined contracts, not a live schema inspection. Bronze and quarantine preserve additional source columns; their source types are inferred at ingestion. Names use the default <code>workspace.nyc_taxi_lakehouse</code> namespace. Landing files live in a Volume, not a Delta table.</p>
+    <p><code>gold_fact_taxi_trips.date_key &rarr; gold_dim_date.date_key</code><br><code>pickup_zone_key / dropoff_zone_key &rarr; gold_dim_zone.zone_id</code></p>
+    <p class="taxi-muted">Logical relationships validated by code, not claimed database-enforced foreign keys. Monthly data is partitioned by <code>_process_year</code> and <code>_process_month</code>.</p>
+    <div class="taxi-schema-grid">{% for table in taxiEvidence.tables %}<details><summary>{{ table.name }}</summary><p>{{ table.purpose }}</p><div class="taxi-table-scroll" tabindex="0" role="region" aria-label="{{ table.name }} column contract"><table><caption>{{ table.name }} / source contract</caption><thead><tr><th scope="col">Column</th><th scope="col">Type</th></tr></thead><tbody>{% for col in table.columns %}<tr><td>{{ col.name }}</td><td>{{ col.type }}</td></tr>{% endfor %}</tbody></table></div></details>{% endfor %}</div>
+  </section>
+  <section class="taxi-band" id="notebook-index">
+    <h2>Notebook index</h2>
+    <p class="taxi-muted">The Job starts <code>08</code>, using runtime sources from <code>09</code> and stages <code>01&ndash;06</code>, then runs publisher <code>16</code> on upstream success. The remaining notebooks support inspection and reporting; they are not all sequential Job tasks.</p>
+    <div class="taxi-table-scroll" tabindex="0" role="region" aria-label="Project notebooks"><table class="taxi-notebook-index"><thead><tr><th scope="col">Notebook</th><th scope="col">Responsibility</th></tr></thead><tbody>{% for notebook in taxiEvidence.notebooks %}<tr><td><a href="{{ taxiSource.url }}/blob/main/{{ notebook.name }}.ipynb">{{ notebook.name }}</a></td><td>{{ notebook.role }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+</article>

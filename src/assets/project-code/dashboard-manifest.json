@@ -1,0 +1,323 @@
+{
+  "version": 2,
+  "pages": [
+    {
+      "id": "lakehouse",
+      "title": "Lakehouse",
+      "panels": [
+        {
+          "title": "Accepted trips",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "selected_trips",
+              "expression": "SUM(`gold_count`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "selected_trips"
+            }
+          }
+        },
+        {
+          "title": "Source total amount (USD)",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "selected_amount",
+              "expression": "SUM(`source_total_amount`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "selected_amount"
+            }
+          }
+        },
+        {
+          "title": "Quarantined rows (%)",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "selected_quarantine_pct",
+              "expression": "MEASURE(`Quarantine rate %`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "selected_quarantine_pct"
+            }
+          }
+        },
+        {
+          "title": "Accepted trips by source month",
+          "type": "line",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "gold_count",
+              "expression": "`gold_count`"
+            }
+          ],
+          "encodings": {
+            "x": {
+              "fieldName": "source_period",
+              "scale": {
+                "type": "categorical"
+              }
+            },
+            "y": {
+              "fieldName": "gold_count",
+              "scale": {
+                "type": "quantitative"
+              }
+            }
+          }
+        },
+        {
+          "title": "Source total amount by source month",
+          "type": "line",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "source_total_amount",
+              "expression": "`source_total_amount`"
+            }
+          ],
+          "encodings": {
+            "x": {
+              "fieldName": "source_period",
+              "scale": {
+                "type": "categorical"
+              }
+            },
+            "y": {
+              "fieldName": "source_total_amount",
+              "scale": {
+                "type": "quantitative"
+              }
+            }
+          }
+        },
+        {
+          "title": "Source-month layer counts",
+          "type": "table",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "bronze_count",
+              "expression": "`bronze_count`"
+            },
+            {
+              "name": "silver_count",
+              "expression": "`silver_count`"
+            },
+            {
+              "name": "gold_count",
+              "expression": "`gold_count`"
+            },
+            {
+              "name": "quarantine_count",
+              "expression": "`quarantine_count`"
+            }
+          ]
+        },
+        {
+          "title": "Source total amount by month (USD)",
+          "type": "table",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "source_total_amount",
+              "expression": "`source_total_amount`"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "title": "Data quality",
+      "panels": [
+        {
+          "title": "Quarantined rows",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "quarantine_count",
+              "expression": "SUM(`quarantine_count`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "quarantine_count"
+            }
+          }
+        },
+        {
+          "title": "Boundary observations",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "boundary_count",
+              "expression": "SUM(`boundary_count`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "boundary_count"
+            }
+          }
+        },
+        {
+          "title": "Weighted quarantine (%)",
+          "type": "counter",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "selected_quarantine_pct",
+              "expression": "MEASURE(`Quarantine rate %`)"
+            }
+          ],
+          "encodings": {
+            "value": {
+              "fieldName": "selected_quarantine_pct"
+            }
+          }
+        },
+        {
+          "title": "Quarantined rows by source month",
+          "type": "line",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "quarantine_count",
+              "expression": "`quarantine_count`"
+            }
+          ],
+          "encodings": {
+            "x": {
+              "fieldName": "source_period",
+              "scale": {
+                "type": "categorical"
+              }
+            },
+            "y": {
+              "fieldName": "quarantine_count",
+              "scale": {
+                "type": "quantitative"
+              }
+            }
+          }
+        },
+        {
+          "title": "Quarantine percentage by source month",
+          "type": "line",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "quarantine_pct",
+              "expression": "`quarantine_pct`"
+            }
+          ],
+          "encodings": {
+            "x": {
+              "fieldName": "source_period",
+              "scale": {
+                "type": "categorical"
+              }
+            },
+            "y": {
+              "fieldName": "quarantine_pct",
+              "scale": {
+                "type": "quantitative"
+              }
+            }
+          }
+        },
+        {
+          "title": "Rows by layer",
+          "type": "bar",
+          "dataset": "current_layers",
+          "fields": [
+            {
+              "name": "layer",
+              "expression": "`layer`"
+            },
+            {
+              "name": "row_count",
+              "expression": "SUM(`row_count`)"
+            }
+          ],
+          "encodings": {
+            "x": {
+              "fieldName": "layer",
+              "scale": {
+                "type": "categorical"
+              }
+            },
+            "y": {
+              "fieldName": "row_count",
+              "scale": {
+                "type": "quantitative"
+              }
+            }
+          }
+        },
+        {
+          "title": "Source-month accounting checks",
+          "type": "table",
+          "dataset": "current_monthly",
+          "fields": [
+            {
+              "name": "source_period",
+              "expression": "`source_period`"
+            },
+            {
+              "name": "bronze_accounting_gap",
+              "expression": "`bronze_accounting_gap`"
+            },
+            {
+              "name": "silver_gold_gap",
+              "expression": "`silver_gold_gap`"
+            },
+            {
+              "name": "boundary_count",
+              "expression": "`boundary_count`"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

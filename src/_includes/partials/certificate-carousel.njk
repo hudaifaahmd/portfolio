@@ -5,7 +5,7 @@
     <div class="cert-stage" id="certStage">
       {% for cert in certifications %}
       <div class="cert-slide{% if loop.first %} active{% endif %}" data-i="{{ loop.index0 }}">
-        <img src="{{ cert.image }}" alt="{{ cert.title }} certificate" loading="lazy">
+        <img src="{{ cert.image }}" alt="{{ cert.title }} certificate" width="{{ cert.width }}" height="{{ cert.height }}" loading="lazy">
         <div class="cert-title">{{ cert.title }}</div>
         <div class="cert-meta">{{ cert.issuer }} · {{ cert.date }}</div>
         <button class="cert-view" data-i="{{ loop.index0 }}" type="button">View larger</button>

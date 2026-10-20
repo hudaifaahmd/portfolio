@@ -1,5 +1,7 @@
 ---
 layout: layout.njk
+taxiStyles: true
+taxiScript: true
 title: Hudaifa Ahamed — Data Engineer
 description: Data Engineer with 3+ years building and modernizing production ETL pipelines — PySpark, SQL, Big Data, and data migration.
 ---
@@ -112,6 +114,25 @@ description: Data Engineer with 3+ years building and modernizing production ETL
       <div class="tagrow">{% for t in p.stack %}<span class="tag">{{ t }}</span>{% endfor %}</div>
     </article>
     {% endfor %}
+  </div>
+</section>
+
+<section class="section taxi-teaser" id="hands-on-projects">
+  <p class="eyebrow">Hands-On Projects</p>
+  <div class="taxi-teaser-grid">
+    <div>
+      <p class="taxi-kicker">Personal reference project / Databricks</p>
+      <h2>NYC Taxi Lakehouse</h2>
+      <p class="lead">From monthly public trip files to reconciled analytics. A working pipeline with quality gates, quarantine, bounded reruns, and daily publication checks.</p>
+      <p class="taxi-teaser-facts" id="taxi-home-summary" data-feed-enabled="{{ taxiFeed.enabled }}" data-feed-url="{{ taxiFeed.url }}"><strong id="taxi-home-bronze">119.60M</strong> source rows <span>/</span> <strong id="taxi-home-months">32</strong> months <span>/</span> <strong id="taxi-home-gold">115.84M</strong> accepted</p>
+      <a class="taxi-link" href="/projects/nyc-taxi-lakehouse/">Explore the project &rarr;</a>
+      <p class="taxi-muted" id="taxi-home-note">Source months: January 2024 &ndash; August 2026.</p>
+    </div>
+    <figure class="taxi-mini-flow" aria-label="Pipeline from source to analytics">
+      <div><span>01</span><strong>TLC monthly files</strong><small>Public Parquet source</small></div>
+      <div><span>02</span><strong>Bronze &rarr; Silver &rarr; Gold</strong><small>Quality rules + reconciliation</small></div>
+      <div><span>03</span><strong>Analytics + operations</strong><small>Monthly trends and audit evidence</small></div>
+    </figure>
   </div>
 </section>
 

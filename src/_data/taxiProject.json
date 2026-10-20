@@ -1,0 +1,296 @@
+{
+  "verifiedOn": "2026-10-18",
+  "evidenceDate": "2026-10-17",
+  "publicFeedConnected": false,
+  "publicationMode": "verified_snapshot",
+  "months": [
+    {
+      "period": "2024-01",
+      "bronze": 2964624,
+      "silver": 2926996,
+      "gold": 2926996,
+      "quarantine": 37628,
+      "amountCents": "8034248818",
+      "boundary": 13
+    },
+    {
+      "period": "2024-02",
+      "bronze": 3007526,
+      "silver": 2966783,
+      "gold": 2966783,
+      "quarantine": 40743,
+      "amountCents": "8098074222",
+      "boundary": 12
+    },
+    {
+      "period": "2024-03",
+      "bronze": 3582628,
+      "silver": 3523903,
+      "gold": 3523903,
+      "quarantine": 58725,
+      "amountCents": "9829537356",
+      "boundary": 21
+    },
+    {
+      "period": "2024-04",
+      "bronze": 3514289,
+      "silver": 3456482,
+      "gold": 3456482,
+      "quarantine": 57807,
+      "amountCents": "9776980359",
+      "boundary": 5
+    },
+    {
+      "period": "2024-05",
+      "bronze": 3723833,
+      "silver": 3663646,
+      "gold": 3663646,
+      "quarantine": 60187,
+      "amountCents": "10699131295",
+      "boundary": 26
+    },
+    {
+      "period": "2024-06",
+      "bronze": 3539193,
+      "silver": 3477264,
+      "gold": 3477264,
+      "quarantine": 61929,
+      "amountCents": "10017298193",
+      "boundary": 44
+    },
+    {
+      "period": "2024-07",
+      "bronze": 3076903,
+      "silver": 3018052,
+      "gold": 3018052,
+      "quarantine": 58851,
+      "amountCents": "8787380211",
+      "boundary": 44
+    },
+    {
+      "period": "2024-08",
+      "bronze": 2979183,
+      "silver": 2920720,
+      "gold": 2920720,
+      "quarantine": 58463,
+      "amountCents": "8579405946",
+      "boundary": 47
+    },
+    {
+      "period": "2024-09",
+      "bronze": 3633030,
+      "silver": 3559560,
+      "gold": 3559560,
+      "quarantine": 73470,
+      "amountCents": "10526569585",
+      "boundary": 45
+    },
+    {
+      "period": "2024-10",
+      "bronze": 3833771,
+      "silver": 3758045,
+      "gold": 3758045,
+      "quarantine": 75726,
+      "amountCents": "11070390502",
+      "boundary": 38
+    },
+    {
+      "period": "2024-11",
+      "bronze": 3646369,
+      "silver": 3573534,
+      "gold": 3573534,
+      "quarantine": 72835,
+      "amountCents": "10246341678",
+      "boundary": 47
+    },
+    {
+      "period": "2024-12",
+      "bronze": 3668371,
+      "silver": 3589244,
+      "gold": 3589244,
+      "quarantine": 79127,
+      "amountCents": "10585621254",
+      "boundary": 26
+    },
+    {
+      "period": "2025-01",
+      "bronze": 3475226,
+      "silver": 3330663,
+      "gold": 3330663,
+      "quarantine": 144563,
+      "amountCents": "9033321047",
+      "boundary": 22
+    },
+    {
+      "period": "2025-02",
+      "bronze": 3577543,
+      "silver": 3394407,
+      "gold": 3394407,
+      "quarantine": 183136,
+      "amountCents": "9051495605",
+      "boundary": 31
+    },
+    {
+      "period": "2025-03",
+      "bronze": 4145257,
+      "silver": 3936042,
+      "gold": 3936042,
+      "quarantine": 209215,
+      "amountCents": "11017781366",
+      "boundary": 31
+    },
+    {
+      "period": "2025-04",
+      "bronze": 3970553,
+      "silver": 3783372,
+      "gold": 3783372,
+      "quarantine": 187181,
+      "amountCents": "10720687916",
+      "boundary": 7
+    },
+    {
+      "period": "2025-05",
+      "bronze": 4591845,
+      "silver": 4265939,
+      "gold": 4265939,
+      "quarantine": 325906,
+      "amountCents": "12498387959",
+      "boundary": 23
+    },
+    {
+      "period": "2025-06",
+      "bronze": 4322960,
+      "silver": 4046673,
+      "gold": 4046673,
+      "quarantine": 276287,
+      "amountCents": "11966416254",
+      "boundary": 19
+    },
+    {
+      "period": "2025-07",
+      "bronze": 3898963,
+      "silver": 3651586,
+      "gold": 3651586,
+      "quarantine": 247377,
+      "amountCents": "10618576130",
+      "boundary": 6
+    },
+    {
+      "period": "2025-08",
+      "bronze": 3574091,
+      "silver": 3312651,
+      "gold": 3312651,
+      "quarantine": 261440,
+      "amountCents": "9604397321",
+      "boundary": 15
+    },
+    {
+      "period": "2025-09",
+      "bronze": 4251015,
+      "silver": 3997915,
+      "gold": 3997915,
+      "quarantine": 253100,
+      "amountCents": "11945478380",
+      "boundary": 7
+    },
+    {
+      "period": "2025-10",
+      "bronze": 4428699,
+      "silver": 4106981,
+      "gold": 4106981,
+      "quarantine": 321718,
+      "amountCents": "12085021089",
+      "boundary": 13
+    },
+    {
+      "period": "2025-11",
+      "bronze": 4181444,
+      "silver": 3784513,
+      "gold": 3784513,
+      "quarantine": 396931,
+      "amountCents": "10785953338",
+      "boundary": 21
+    },
+    {
+      "period": "2025-12",
+      "bronze": 4305006,
+      "silver": 4256117,
+      "gold": 4256117,
+      "quarantine": 48889,
+      "amountCents": "13446220547",
+      "boundary": 9
+    },
+    {
+      "period": "2026-01",
+      "bronze": 3724889,
+      "silver": 3684886,
+      "gold": 3684886,
+      "quarantine": 40003,
+      "amountCents": "10990024310",
+      "boundary": 6
+    },
+    {
+      "period": "2026-02",
+      "bronze": 3399866,
+      "silver": 3372561,
+      "gold": 3372561,
+      "quarantine": 27305,
+      "amountCents": "10318496601",
+      "boundary": 16
+    },
+    {
+      "period": "2026-03",
+      "bronze": 3952451,
+      "silver": 3931130,
+      "gold": 3931130,
+      "quarantine": 21321,
+      "amountCents": "11955663209",
+      "boundary": 17
+    },
+    {
+      "period": "2026-04",
+      "bronze": 3831240,
+      "silver": 3816351,
+      "gold": 3816351,
+      "quarantine": 14889,
+      "amountCents": "11535869707",
+      "boundary": 8
+    },
+    {
+      "period": "2026-05",
+      "bronze": 4090836,
+      "silver": 4075946,
+      "gold": 4075946,
+      "quarantine": 14890,
+      "amountCents": "12512755597",
+      "boundary": 12
+    },
+    {
+      "period": "2026-06",
+      "bronze": 3837248,
+      "silver": 3822900,
+      "gold": 3822900,
+      "quarantine": 14348,
+      "amountCents": "11751045557",
+      "boundary": 1
+    },
+    {
+      "period": "2026-07",
+      "bronze": 3530109,
+      "silver": 3515347,
+      "gold": 3515347,
+      "quarantine": 14762,
+      "amountCents": "10649347841",
+      "boundary": 15
+    },
+    {
+      "period": "2026-08",
+      "bronze": 3336716,
+      "silver": 3322202,
+      "gold": 3322202,
+      "quarantine": 14514,
+      "amountCents": "10077940386",
+      "boundary": 14
+    }
+  ]
+}

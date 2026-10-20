@@ -1,0 +1,46 @@
+.dashboard-page{max-width:1380px}
+.dashboard-page h1{font-size:32px}
+.dash-tabs{display:flex;gap:20px;overflow:auto;border-bottom:1px solid var(--line);margin-top:24px}
+.dashboard-page button,.dashboard-page input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:7px 10px;font-size:13px;min-height:36px}
+.dashboard-page button{cursor:pointer}
+.dashboard-page button:disabled{opacity:.45;cursor:default}
+.dashboard-page button:focus-visible,.dashboard-page input:focus-visible{outline:3px solid var(--taxi-gold);outline-offset:2px}
+.dash-tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;white-space:nowrap;padding:13px 1px;background:none}
+.dash-tabs button[aria-selected="true"]{border-bottom-color:var(--taxi-teal);color:var(--taxi-teal);font-weight:600}
+.dash-toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;padding:18px 0 0}
+.dashboard-page .dash-period-menu{padding:0;border:0;min-width:200px}
+.dash-period-menu summary{font-size:13px;min-height:36px;padding:7px 10px;border:1px solid var(--line);border-radius:4px}
+.dash-period-actions{display:flex;gap:8px;padding:12px 0}
+#dashboard-periods{display:grid;grid-template-columns:repeat(3,minmax(85px,1fr));max-height:240px;overflow:auto;gap:4px 8px}
+#dashboard-periods label{font-size:12px;display:flex;align-items:center;gap:5px}
+#dashboard-periods input{min-height:18px;accent-color:var(--taxi-teal)}
+.dash-message{font-size:13px;color:var(--taxi-gold)}
+.dash-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:32px;margin-bottom:24px}
+.dash-panel{min-width:0;grid-column:1/-1;padding:24px 0;border-bottom:1px solid var(--line)}
+.dash-panel h2{font-size:18px;line-height:1.45;margin:0 0 8px}
+.dash-counter{grid-column:auto}
+.dash-value{display:block;font-family:"JetBrains Mono",monospace;font-size:28px;overflow-wrap:anywhere;color:var(--taxi-teal);margin:22px 0 8px;font-weight:500}
+.dash-pending{padding:20px 0;color:var(--ink-muted);font-size:14px}
+.dash-table-tools,.dash-paging{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 0}
+.dash-table-tools input{width:250px;max-width:60%}
+.dash-paging{justify-content:flex-end;font-size:12px}
+.dash-panel table{font-size:12px;width:100%}
+.dash-panel td{white-space:nowrap;max-width:380px;overflow-wrap:anywhere}
+.dash-panel th button{background:none;border:0;text-align:left;font-size:11px;white-space:normal;text-transform:capitalize;padding:5px 0}
+.dash-panel th[aria-sort="ascending"] button::after{content:" +";color:var(--taxi-teal)}
+.dash-panel th[aria-sort="descending"] button::after{content:" -";color:var(--taxi-teal)}
+.dash-line{width:100%;min-height:180px;max-height:340px;display:block;margin:15px 0;color:var(--ink-muted);overflow:visible}
+.dash-bars{display:grid;gap:14px;margin:24px 0;max-height:500px;overflow:auto}
+.dash-bar-row{display:grid;grid-template-columns:minmax(100px,230px) minmax(80px,1fr) 140px;gap:18px;align-items:center;font-size:12px}
+.dash-bar-row>span{overflow-wrap:anywhere}
+.dash-bar-row>span:last-child{text-align:right;font-family:"JetBrains Mono",monospace}
+.dash-bar-track{height:16px;background:var(--surface-2)}
+.dash-bar-track span{display:block;height:100%;background:var(--taxi-teal)}
+.taxi-schema-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px}
+.taxi-schema-grid details{min-width:0}
+.taxi-schema-grid summary{overflow-wrap:anywhere;font-size:14px}
+.taxi-schema-grid table{width:100%;font-size:12px}
+.taxi-schema-grid td:first-child{font-family:"JetBrains Mono",monospace;overflow-wrap:anywhere}
+.taxi-notebook-index{width:100%;font-size:13px}
+.taxi-notebook-index td{overflow-wrap:anywhere}
+@media(max-width:720px){.dash-panels{column-gap:14px}.dash-counter{grid-column:1/-1}.dash-value{font-size:27px}.dash-bar-row{grid-template-columns:minmax(70px,120px) minmax(60px,1fr) 95px;gap:8px}.taxi-schema-grid{grid-template-columns:1fr}.dash-paging{justify-content:space-between}.dash-tabs{gap:18px}.dash-line{min-height:150px}}
