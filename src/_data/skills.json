@@ -1,11 +1,11 @@
 [
   {
     "category": "Data Engineering & Big Data",
-    "items": ["Python", "PySpark", "SQL", "HiveQL", "Impala SQL", "Cloudera Hadoop", "Informatica BDM", "Shell Scripting"]
+    "items": ["Python", "PySpark", "SQL", "HiveQL", "Impala SQL", "Cloudera Hadoop", "Informatica BDM", "Shell Scripting", "Databricks"]
   },
   {
     "category": "ETL & Migration",
-    "items": ["Informatica ETL Development", "PySpark ETL Development", "Data Integration", "Data Migration", "Batch Processing", "Config-Driven ETL Frameworks"]
+    "items": ["Informatica ETL Development", "PySpark ETL Development", "Data Integration", "Data Migration", "Batch Processing", "Config-Driven ETL Frameworks", "Medallion Architecture"]
   },
   {
     "category": "SQL & Optimization",
