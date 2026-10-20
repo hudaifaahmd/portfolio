@@ -40,8 +40,36 @@
       return [f.name,value];
     })));
   }
-  if(typeof module!=='undefined') module.exports={baseline,filterPeriods,project};
+  function createSectionNavigation(win, doc) {
+    const sections = new Set(['#interactive-dashboard','#table-structures','#notebook-index']);
+    let following = true, queued = false;
+    function restore() {
+      if (!following || queued || !sections.has(win.location.hash)) return;
+      queued = true;
+      win.requestAnimationFrame(() => {
+        queued = false;
+        if (following && sections.has(win.location.hash)) {
+          doc.getElementById(win.location.hash.slice(1))?.scrollIntoView({behavior:'instant',block:'start'});
+        }
+      });
+    }
+    // Initial charts and the later public report change the height above these
+    // sections. Follow the requested fragment only until the visitor takes over.
+    for (const event of ['wheel','touchstart','pointerdown','keydown']) {
+      win.addEventListener(event, () => { following = false; }, {passive:true});
+    }
+    win.addEventListener('hashchange', () => { following = true; restore(); });
+    win.addEventListener('click', event => {
+      const href = event.target?.closest?.('a[href]')?.getAttribute('href');
+      if (sections.has(href)) { following = true; restore(); }
+    });
+    return {restore};
+  }
+  if(typeof module!=='undefined') module.exports={baseline,filterPeriods,project,createSectionNavigation};
   if(typeof document==='undefined' || !document.getElementById('dashboard-panels')) return;
+  const sectionNavigation = createSectionNavigation(window, document);
+  window.addEventListener('load', sectionNavigation.restore, {once:true});
+  document.fonts?.ready.then(sectionNavigation.restore);
   const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   const integer=new Intl.NumberFormat('en-US',{maximumFractionDigits:2});
   function format(value,name) {
@@ -123,6 +151,7 @@
         else if(panel.type==='table')table(section,rows,panel.fields,panel.title);
         else {if(rows.every(r=>panel.fields.every(f=>r[f.name]!==null)))chart(section,rows,panel);const details=el('details'),summary=el('summary','Exact figures');details.append(summary);table(details,rows,panel.fields,panel.title);section.append(details);}
       }
+      sectionNavigation.restore();
     }
     manifest.pages.forEach((page,i)=>{const b=el('button',page.title);b.type='button';b.id='dash-tab-'+i;b.setAttribute('role','tab');b.setAttribute('aria-controls','dashboard-panels');b.onclick=()=>{active=i;render();};b.onkeydown=e=>{let target=i,n=manifest.pages.length;if(e.key==='ArrowRight')target=(i+1)%n;else if(e.key==='ArrowLeft')target=(i+n-1)%n;else if(e.key==='Home')target=0;else if(e.key==='End')target=n-1;else return;e.preventDefault();tabs.children[target].click();tabs.children[target].focus();};tabs.append(b);});
     document.getElementById('dashboard-all').onclick=()=>{selected=new Set(periods);periodList.querySelectorAll('input').forEach(c=>c.checked=true);render();};
@@ -138,5 +167,5 @@
       snapshot=result.data;datasets=baseline(snapshot);refreshPeriods(true);render();
     }).catch(()=>{});
   }
-  start().catch(()=>{document.getElementById('dashboard-message').textContent='Dashboard assets could not load. Please open the portable preview or the served site.';});
+  start().catch(()=>{document.getElementById('dashboard-message').textContent='Dashboard assets could not load. Please open the portable preview or the served site.';sectionNavigation.restore();});
 }());
