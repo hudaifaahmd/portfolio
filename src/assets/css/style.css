@@ -245,6 +245,11 @@ g.knob-shortcut:focus-visible .gauge-yourco { fill: var(--ink); }
 .exp-oneliner { color: var(--ink-muted); font-size: .92rem; margin-bottom: .5rem; }
 .exp-chevron { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); color: var(--accent2); display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; font-family: 'JetBrains Mono'; }
 .exp-detail { max-height: 0; overflow: hidden; transition: max-height .25s ease; padding: 0 1.3rem; }
+.exp-document { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.exp-document-link { display: inline-block; font-size: .86rem; font-weight: 600; color: var(--accent2); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.exp-document-link:focus-visible { outline: 2px solid var(--accent2); outline-offset: 4px; }
+.exp-document-format { font-size: .76rem; font-weight: 400; white-space: nowrap; }
+.exp-document p { margin: .4rem 0 0; max-width: 85ch; font-size: .76rem; line-height: 1.55; color: var(--ink-muted); }
 .exp-detail ul { margin: 0 0 1.1rem; }
 .exp-detail li { font-size: .92rem; }
 .exp-cats { display: flex; flex-direction: column; gap: .6rem; margin: 0 0 1.2rem; }

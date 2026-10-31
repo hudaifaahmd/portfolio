@@ -93,6 +93,12 @@ description: Data Engineer with 3+ years building and modernizing production ETL
         {% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}
       </ul>
       {% endif %}
+      {% if job.certificate %}
+      <div class="exp-document" aria-label="Employment documentation">
+        <a class="exp-document-link" href="{{ job.certificate.url }}" target="_blank" rel="noopener" aria-describedby="employment-certificate-note-{{ loop.index }}">{{ job.certificate.label }} &mdash; {{ job.certificate.disclosure | lower }} <span class="exp-document-format">(PDF)</span></a>
+        <p id="employment-certificate-note-{{ loop.index }}">Employee ID, certificate reference, signature and stamp are redacted for privacy. Employment details are unchanged. Original available privately for recruitment verification.</p>
+      </div>
+      {% endif %}
     </div>
   </div>
   {% endfor %}

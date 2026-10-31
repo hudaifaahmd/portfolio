@@ -6,6 +6,11 @@
     "dates": "Jul 2023 – Aug 2026",
     "summary": "3+ years developing, optimizing, maintaining, and modernizing enterprise ETL pipelines in a Cloudera Hadoop environment — from a config-driven PySpark framework to a legacy warehouse migration.",
     "tags": ["PySpark", "HiveQL", "Impala SQL", "Informatica BDM", "Cloudera Hadoop", "Python", "Shell Scripting"],
+    "certificate": {
+      "url": "/assets/project-evidence/acabes-experience-certificate-public.pdf",
+      "label": "Experience certificate",
+      "disclosure": "Redacted public copy"
+    },
     "categories": [
       {
         "num": "01",

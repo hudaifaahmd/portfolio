@@ -471,7 +471,7 @@
 
   /* ---------------- Experience accordion (+ / − text swap) ---------------- */
   document.querySelectorAll('.exp-toggle').forEach(function (btn) {
-    var detail = btn.nextElementSibling;
+    var detail = btn.closest('.exp-card').querySelector('.exp-detail');
     var chevron = btn.querySelector('.exp-chevron');
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
